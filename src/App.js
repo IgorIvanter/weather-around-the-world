@@ -1,58 +1,114 @@
 import {React, useState} from "react";
 
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
 const api = {
 	key: "076d1ea1151407ab670c718939b77745",
-	base: "https://api.openweathermap.org/data/2.5/"
-  }
+	base: "https://api.openweathermap.org/data/2.5/",
+	baseForecast: "https://api.openweathermap.org/data/2.5/forecast"
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+const Forecast = (props) => {
+	return <table>
+		<tbody>
+			<tr>
+				{[0, 1, 2, 3].map(element => <td key={element}>{element}</td>)}	
+			</tr>
+		</tbody>
+	</table>
+}
+
+const DateBox = () => {
+	const date = new Date()
+	return <div className="date-box">
+		{`${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`}
+	</div>
+}
 
 function App() {
+	const [borderWidth, setBorder] = useState(1)
+
+	const toggleBorders = (event) => {
+		setBorder(prevColorIndex => 1 - prevColorIndex)
+		document.documentElement.style.setProperty("--border-width", borderWidth)
+		console.log(`Done. Border width: ${borderWidth}`)
+	}
+
 	const [userInput, setUserInput] = useState("")
 
 	const [weather, setWeather] = useState({
 		temp: 3,
 		description: "Sunny, some clouds",
-		location: "Moscow"
+		location: "Moscow",
 	})
+
+	const [forecast, setForecast] = useState(
+		fetch(`${api.base}forecast?q=Moscow&units=metric&APPID=${api.key}`)
+		.then(res => res.json())
+	)
+
+	console.log("result: ", forecast)
 
 	const searchHandler = () => {
 		// console.log("Search handler called...")
 		fetch(`${api.base}weather?q=${userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			setWeather({
 				temp: res.main.temp,
 				description: res.weather[0].description,
-				location: userInput
+				location: `${res.name}, ${res.sys.country}`
 			})
+		})
+
+		fetch(`${api.baseForecast}?q=${userInput}&&units=metric&APPID=${api.key}`)
+		.then(res => res.json())
+		.then(res => {
+			console.log(res)
+			for (let weatherSnapShot of res.list) {
+				const date = new Date(weatherSnapShot.dt * 1000)
+				console.log(
+					`${date.getHours()}:${date.getMinutes()} ${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`,
+					weatherSnapShot.dt
+				)
+			}
 		})
 	}
 
-	const userInputChangeHandler = event => {
-		// console.log("Change handler called...")
-		setUserInput(event.target.value)
-	}
+	const userInputChangeHandler = event => setUserInput(event.target.value)
 
-	// window.addEventListener("keydown", event => event.key === "Enter" ? searchHandler() : 0)
-	
+	document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
     return (
         <div className="App">
 			<main>
-				<h1 className="text-center">This is my weather app!</h1>
-				<div style={{display: "flex", justifyContent: "center"}} className="search">
+				<div className="search">
 					<input
 						type="text"
 						placeholder="Search..." 
-						onChange={userInputChangeHandler}
-						style={{
-							fontSize: "2rem",
-							width: "50%"
-						}}/>
+						onChange={userInputChangeHandler}></input>
 					<button onClick={searchHandler}>Search!</button>
 				</div>
-				<h1 className="text-center">{weather.location}</h1>
-				<h1 className="text-center">{weather.description}. It's {Math.round(weather.temp)} degrees.</h1>
+				<div className="location-box text-center">
+					{weather.location}
+					<DateBox />
+				</div>
+				<div className="temp-box">
+					{Math.round(weather.temp)} &deg;C
+				</div>
+				<div className="description-box text-center">
+					{capitalizeFirstLetter(weather.description)}
+				</div>
+				{/* <div>
+					<Forecast />
+				</div> */}
 			</main>
+			<button onClick={toggleBorders}>Enable borders</button>
         </div>
     );
 }
