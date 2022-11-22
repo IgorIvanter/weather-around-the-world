@@ -11,7 +11,7 @@ const SearchBar = props => {
 						placeholder="Search..."
 						onChange={props.onChange}
 						onSubmit={props.onSubmit}
-						value	={props.weather.userInput}>
+						value	={props.state.userInput}>
 						</input>
 					<button onClick={props.onSubmit}>Search!</button>
 				</form>

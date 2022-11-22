@@ -28,13 +28,13 @@ function App() {
 	}, [borderWidth])
 
 	const userInputChangeHandler = event => {
-		setWeather({
-			...weather,
+		setState({
+			...state,
 			userInput: event.target.value
 		})
 	}
 
-	const [weather, setWeather] = useState({
+	const [state, setState] = useState({
 		userInput: ""
 	})
 
@@ -47,7 +47,7 @@ function App() {
 		fetch(`${api.requestStartWeather}q=${initialLocation}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
-			setWeather({
+			setState({
 				temp: res.main.temp,
 				description: res.weather[0].description,
 				location: `${res.name}, ${res.sys.country}`,
@@ -64,10 +64,10 @@ function App() {
 	const searchHandler = (event) => {
 		event.preventDefault()
 		console.log("Search handler called...")
-		fetch(`${api.requestStartWeather}q=${weather.userInput}&units=metric&APPID=${api.key}`)
+		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
-			setWeather({
+			setState({
 				temp: res.main.temp,
 				description: res.weather[0].description,
 				location: `${res.name}, ${res.sys.country}`,
@@ -94,10 +94,10 @@ function App() {
     return (
         <div className="App">
 			<header>
-				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler} weather={weather}></NavBar>
+				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler} state={state}></NavBar>
 			</header>
 
-			<Main weather={weather} />
+			<Main state={state} />
 
 			<button onClick={toggleBorders}>Enable borders</button>
         </div>

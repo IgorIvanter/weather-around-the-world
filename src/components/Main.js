@@ -1,4 +1,5 @@
 import DateBox from "./DateBox"
+import { Emoji } from "./Emoji";
 
 
 const Main = props => {
@@ -6,20 +7,29 @@ const Main = props => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-	const weather = props.weather
+	const state = props.state
 
 	/* Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */
 
-	return Object.keys(weather).length > 1 ? (<main>
+	return Object.keys(state).length > 1 ? (<main>
 		<div className="location-box text-center">
-			{weather.location}
+			{state.location}
 			<DateBox />
 		</div>
 		<div className="temp-box">
-			{Math.round(weather.temp)} &deg;C
+			{Math.round(state.temp)} &deg;C
 		</div>
 		<div className="description-box text-center">
-			{capitalizeFirstLetter(weather.description)}
+			{/* <Emoji symbol="" 
+						style={{
+							height: "125%",
+							fontSize: "3rem",
+							margin: "0 1rem",
+							position: "relative",
+							top: "0.5rem"
+						}}
+				/> */}
+			{capitalizeFirstLetter(state.description)}
 		</div>
 	</main>) : (
 		<main>
