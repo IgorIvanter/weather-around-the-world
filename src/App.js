@@ -78,11 +78,24 @@ function App() {
 
 	const userInputChangeHandler = event => setUserInput(event.target.value)
 
-	const [weather, setWeather] = useState({
-		temp: 3,
-		description: "Sunny, some clouds",
-		location: "Moscow",
-	})
+	const [weather, setWeather] = useState({})
+
+	// This effect sets up the initial data that's displayed on the screen directly after the page is loaded.
+
+	// It shows the weather for the city {initialLocation}:
+
+	useEffect(() => {
+		const initialLocation = "Moscow"
+		fetch(`${api.base}weather?q=${initialLocation}&units=metric&APPID=${api.key}`)
+        .then(res => res.json())
+		.then(res => {
+			setWeather({
+				temp: res.main.temp,
+				description: res.weather[0].description,
+				location: `${res.name}, ${res.sys.country}`
+			})
+		})
+	}, [])
 
 	const [forecast, setForecast] = useState(
 		fetch(`${api.base}forecast?q=Moscow&units=metric&APPID=${api.key}`)
@@ -108,10 +121,10 @@ function App() {
 			console.log(res)
 			for (let weatherSnapShot of res.list) {
 				const date = new Date(weatherSnapShot.dt * 1000)
-				console.log(
-					`${date.getHours()}:${date.getMinutes()} ${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`,
-					weatherSnapShot.dt
-				)
+				// console.log(
+				// 	`${date.getHours()}:${date.getMinutes()} ${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`,
+				// 	weatherSnapShot.dt
+				// )
 			}
 		})
 	}
@@ -123,7 +136,7 @@ function App() {
 			<header>
 				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler}></NavBar>
 			</header>
-			<main>
+			{Object.keys(weather).length ? (<main>
 				<div className="location-box text-center">
 					{weather.location}
 					<DateBox />
@@ -134,7 +147,11 @@ function App() {
 				<div className="description-box text-center">
 					{capitalizeFirstLetter(weather.description)}
 				</div>
-			</main>
+			</main>) : (
+				<main>
+					<h1>Fetching data...</h1>
+				</main>
+			)}
 			<button onClick={toggleBorders}>Enable borders</button>
         </div>
     );
