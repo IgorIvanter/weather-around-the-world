@@ -5,8 +5,8 @@ import Main from "./components/Main"
 
 const api = {
 	key: "076d1ea1151407ab670c718939b77745",
-	base: "https://api.openweathermap.org/data/2.5/",
-	baseForecast: "https://api.openweathermap.org/data/2.5/forecast"
+	requestStartWeather: "https://api.openweathermap.org/data/2.5/weather?",
+	requestStartForecast: "https://api.openweathermap.org/data/2.5/forecast"
 }
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
 
 	useEffect(() => {
 		const initialLocation = "Moscow"
-		fetch(`${api.base}weather?q=${initialLocation}&units=metric&APPID=${api.key}`)
+		fetch(`${api.requestStartWeather}q=${initialLocation}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
 			setWeather({
@@ -64,7 +64,7 @@ function App() {
 	const searchHandler = (event) => {
 		event.preventDefault()
 		console.log("Search handler called...")
-		fetch(`${api.base}weather?q=${weather.userInput}&units=metric&APPID=${api.key}`)
+		fetch(`${api.requestStartWeather}q=${weather.userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
 			setWeather({
