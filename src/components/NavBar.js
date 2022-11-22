@@ -1,3 +1,5 @@
+import SearchBar from "./SearchBar"
+
 const NavBar = props => {
 	return (
 		<nav>
@@ -6,3 +8,5 @@ const NavBar = props => {
 		</nav>
 	)
 }
+
+export default NavBar

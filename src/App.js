@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from "react";
-import SearchBar from "./SearchBar";
+import NavBar from "./components/NavBar";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -23,15 +23,6 @@ function capitalizeFirstLetter(string) {
 // 		</tbody>
 // 	</table>
 // }
-
-const NavBar = props => {
-	return (
-		<nav>
-			<h1 className="text-cetner">Weather Forecast around the World</h1>
-			<SearchBar onChange={props.onChange} onSubmit={props.onSubmit} />
-		</nav>
-	)
-}
 
 const DateBox = () => {
 	const date = new Date()
