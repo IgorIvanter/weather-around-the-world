@@ -27,13 +27,16 @@ function App() {
 		document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
 	}, [borderWidth])
 
-	// userInput is the string currently in the input field:
+	const userInputChangeHandler = event => {
+		setWeather({
+			...weather,
+			userInput: event.target.value
+		})
+	}
 
-	const [userInput, setUserInput] = useState("")
-
-	const userInputChangeHandler = event => setUserInput(event.target.value)
-
-	const [weather, setWeather] = useState({})
+	const [weather, setWeather] = useState({
+		userInput: ""
+	})
 
 	// This effect sets up the initial data that's displayed on the screen directly after the page is loaded.
 
@@ -47,7 +50,8 @@ function App() {
 			setWeather({
 				temp: res.main.temp,
 				description: res.weather[0].description,
-				location: `${res.name}, ${res.sys.country}`
+				location: `${res.name}, ${res.sys.country}`,
+				userInput: ""
 			})
 		})
 	}, [])
@@ -60,13 +64,14 @@ function App() {
 	const searchHandler = (event) => {
 		event.preventDefault()
 		console.log("Search handler called...")
-		fetch(`${api.base}weather?q=${userInput}&units=metric&APPID=${api.key}`)
+		fetch(`${api.base}weather?q=${weather.userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
 			setWeather({
 				temp: res.main.temp,
 				description: res.weather[0].description,
-				location: `${res.name}, ${res.sys.country}`
+				location: `${res.name}, ${res.sys.country}`,
+				userInput: ""
 			})
 		})
 
@@ -89,7 +94,7 @@ function App() {
     return (
         <div className="App">
 			<header>
-				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler}></NavBar>
+				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler} weather={weather}></NavBar>
 			</header>
 
 			<Main weather={weather} />

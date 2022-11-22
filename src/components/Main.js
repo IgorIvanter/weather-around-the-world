@@ -10,7 +10,7 @@ const Main = props => {
 
 	/* Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */
 
-	return Object.keys(weather).length ? (<main>
+	return Object.keys(weather).length > 1 ? (<main>
 		<div className="location-box text-center">
 			{weather.location}
 			<DateBox />

@@ -8,9 +8,11 @@ const SearchBar = props => {
 					}}>
 					<input
 						type="text"
-						placeholder="Search..." 
+						placeholder="Search..."
 						onChange={props.onChange}
-						onSubmit={props.onSubmit}></input>
+						onSubmit={props.onSubmit}
+						value	={props.weather.userInput}>
+						</input>
 					<button onClick={props.onSubmit}>Search!</button>
 				</form>
 			</div>)
