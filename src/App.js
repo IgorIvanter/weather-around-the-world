@@ -58,9 +58,12 @@ const DateBox = () => {
 }
 
 function App() {
+
 	// borderWidth state is used to track if the borders are shown or not:
 
-	const [borderWidth, setBorder] = useState(1)
+	const initialBorderWidthAfterLoading = 0
+
+	const [borderWidth, setBorder] = useState(initialBorderWidthAfterLoading)
 
 	const toggleBorders = (event) => {
 		setBorder(prevColorIndex => 1 - prevColorIndex)
@@ -136,6 +139,9 @@ function App() {
 			<header>
 				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler}></NavBar>
 			</header>
+
+			{/* Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */}
+
 			{Object.keys(weather).length ? (<main>
 				<div className="location-box text-center">
 					{weather.location}
