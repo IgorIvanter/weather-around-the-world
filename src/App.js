@@ -23,6 +23,24 @@ const Forecast = (props) => {
 	</table>
 }
 
+const SearchBar = props => {
+	return (<div className="search">
+				<form 
+					onSubmit={props.onSubmit}
+					style={{
+						display: "flex",
+						border: "none"
+					}}>
+					<input
+						type="text"
+						placeholder="Search..." 
+						onChange={props.onChange}
+						onSubmit={props.onSubmit}></input>
+					<button onClick={props.onSubmit}>Search!</button>
+				</form>
+			</div>)
+}
+
 const DateBox = () => {
 	const date = new Date()
 	return <div className="date-box">
@@ -54,8 +72,9 @@ function App() {
 
 	console.log("result: ", forecast)
 
-	const searchHandler = () => {
-		// console.log("Search handler called...")
+	const searchHandler = (event) => {
+		event.preventDefault()
+		console.log("Search handler called...")
 		fetch(`${api.base}weather?q=${userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
@@ -87,13 +106,7 @@ function App() {
     return (
         <div className="App">
 			<main>
-				<div className="search">
-					<input
-						type="text"
-						placeholder="Search..." 
-						onChange={userInputChangeHandler}></input>
-					<button onClick={searchHandler}>Search!</button>
-				</div>
+				<SearchBar onChange={userInputChangeHandler} onSubmit={searchHandler} />
 				<div className="location-box text-center">
 					{weather.location}
 					<DateBox />
