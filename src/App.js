@@ -1,8 +1,7 @@
 import {React, useState, useEffect} from "react";
 import NavBar from "./components/NavBar";
+import DateBox from "./components/DateBox";
 
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 const api = {
 	key: "076d1ea1151407ab670c718939b77745",
@@ -23,13 +22,6 @@ function capitalizeFirstLetter(string) {
 // 		</tbody>
 // 	</table>
 // }
-
-const DateBox = () => {
-	const date = new Date()
-	return <div className="date-box">
-		{`${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`}
-	</div>
-}
 
 function App() {
 
