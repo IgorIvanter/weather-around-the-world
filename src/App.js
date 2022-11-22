@@ -49,6 +49,7 @@ function App() {
 		.then(res => {
 			setState({
 				temp: res.main.temp,
+				feelsLike: res.feels_like,
 				description: res.weather[0].description,
 				location: `${res.name}, ${res.sys.country}`,
 				userInput: ""
@@ -67,8 +68,10 @@ function App() {
 		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
+			console.log(res)
 			setState({
 				temp: res.main.temp,
+				feelsLike: res.main.feels_like,
 				description: res.weather[0].description,
 				location: `${res.name}, ${res.sys.country}`,
 				userInput: ""

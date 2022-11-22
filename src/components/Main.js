@@ -29,7 +29,7 @@ const Main = props => {
 							top: "0.5rem"
 						}}
 				/> */}
-			{capitalizeFirstLetter(state.description)}
+			Feels like {Math.round(state.feelsLike)}&deg;C. {capitalizeFirstLetter(state.description)}.
 		</div>
 	</main>) : (
 		<main>
