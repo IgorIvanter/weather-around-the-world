@@ -51,17 +51,27 @@ main {
 }
 
 body {
+    background-color: grey;
+}
+
+.App {
     background-color: var(--color2);
+}
+
+nav {
+    background-image: linear-gradient(to right, #37D5D6, #36096D);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .search {
     display: flex;
     justify-content: center;
     width: fit-content;
-    margin: auto;
     border-radius: 1rem;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
-    /* border: 1px solid black; */
 }
 
 .search input {
@@ -88,8 +98,9 @@ body {
 }
 
 .search button:hover {
-    color: white;
-    background-color: black;
+    color: var(--color6);
+    background-color: white;
+    border: 1px solid var(--color6);
 }
 
 .search button:active {
@@ -99,7 +110,10 @@ body {
 
 .location-box {
     font-weight: bold;
-    margin: 5rem auto;
+    margin: auto;
+    padding-top: 5rem;
+    
+
     font-size: 3rem;
 }
 

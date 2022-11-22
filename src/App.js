@@ -23,6 +23,15 @@ const Forecast = (props) => {
 	</table>
 }
 
+const NavBar = props => {
+	return (
+		<nav>
+			<h1 className="text-cetner">Weather Forecast around the World</h1>
+			<SearchBar onChange={props.onChange} onSubmit={props.onSubmit} />
+		</nav>
+	)
+}
+
 const SearchBar = props => {
 	return (<div className="search">
 				<form 
@@ -105,8 +114,10 @@ function App() {
 	document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
     return (
         <div className="App">
+			<header>
+				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler}></NavBar>
+			</header>
 			<main>
-				<SearchBar onChange={userInputChangeHandler} onSubmit={searchHandler} />
 				<div className="location-box text-center">
 					{weather.location}
 					<DateBox />
@@ -117,9 +128,6 @@ function App() {
 				<div className="description-box text-center">
 					{capitalizeFirstLetter(weather.description)}
 				</div>
-				{/* <div>
-					<Forecast />
-				</div> */}
 			</main>
 			<button onClick={toggleBorders}>Enable borders</button>
         </div>
