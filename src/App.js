@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from "react";
 import NavBar from "./components/NavBar";
-import DateBox from "./components/DateBox";
+import Main from "./components/Main"
 
 
 const api = {
@@ -8,20 +8,6 @@ const api = {
 	base: "https://api.openweathermap.org/data/2.5/",
 	baseForecast: "https://api.openweathermap.org/data/2.5/forecast"
 }
-
-function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-// const Forecast = (props) => {
-// 	return <table>
-// 		<tbody>
-// 			<tr>
-// 				{[0, 1, 2, 3].map(element => <td key={element}>{element}</td>)}	
-// 			</tr>
-// 		</tbody>
-// 	</table>
-// }
 
 function App() {
 
@@ -106,24 +92,8 @@ function App() {
 				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler}></NavBar>
 			</header>
 
-			{/* Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */}
+			<Main weather={weather} />
 
-			{Object.keys(weather).length ? (<main>
-				<div className="location-box text-center">
-					{weather.location}
-					<DateBox />
-				</div>
-				<div className="temp-box">
-					{Math.round(weather.temp)} &deg;C
-				</div>
-				<div className="description-box text-center">
-					{capitalizeFirstLetter(weather.description)}
-				</div>
-			</main>) : (
-				<main>
-					<h1>Fetching data...</h1>
-				</main>
-			)}
 			<button onClick={toggleBorders}>Enable borders</button>
         </div>
     );
