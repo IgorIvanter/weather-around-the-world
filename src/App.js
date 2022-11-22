@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -58,6 +58,8 @@ const DateBox = () => {
 }
 
 function App() {
+	// borderWidth state is used to track if the borders are shown or not:
+
 	const [borderWidth, setBorder] = useState(1)
 
 	const toggleBorders = (event) => {
@@ -66,7 +68,15 @@ function App() {
 		console.log(`Done. Border width: ${borderWidth}`)
 	}
 
+	useEffect(() => {
+		document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
+	}, [borderWidth])
+
+	// userInput is the string currently in the input field:
+
 	const [userInput, setUserInput] = useState("")
+
+	const userInputChangeHandler = event => setUserInput(event.target.value)
 
 	const [weather, setWeather] = useState({
 		temp: 3,
@@ -79,15 +89,12 @@ function App() {
 		.then(res => res.json())
 	)
 
-	console.log("result: ", forecast)
-
 	const searchHandler = (event) => {
 		event.preventDefault()
 		console.log("Search handler called...")
 		fetch(`${api.base}weather?q=${userInput}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
 		.then(res => {
-			// console.log(res)
 			setWeather({
 				temp: res.main.temp,
 				description: res.weather[0].description,
@@ -109,9 +116,8 @@ function App() {
 		})
 	}
 
-	const userInputChangeHandler = event => setUserInput(event.target.value)
 
-	document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
+
     return (
         <div className="App">
 			<header>
