@@ -6,7 +6,39 @@ import Main from "./components/Main"
 const api = {
 	key: "076d1ea1151407ab670c718939b77745",
 	requestStartWeather: "https://api.openweathermap.org/data/2.5/weather?",
-	requestStartForecast: "https://api.openweathermap.org/data/2.5/forecast"
+	requestStartForecast: "https://api.openweathermap.org/data/2.5/forecast?"
+}
+
+export const ForecastTable = props => {
+	const getTime = dt => {
+		const date = new Date(dt * 1000)
+		let hours = date.getHours()
+		let minutes = date.getMinutes()
+		return `${hours}:${minutes < 10 && 0}${minutes}`
+	}
+
+	const state = props.state
+	return (
+		<div>
+			<h1 className="text-center">Weather Forecast</h1>
+			<div style={{
+				display: "flex",
+				justifyContent: "center"
+			}}>
+				<table>
+					<tbody>
+						<tr>
+							{state.forecastList ? state.forecastList.map((item, index) => {
+								return (index < 5 && <td key={item.dt}>
+														{getTime(item.dt)}
+													</td>)
+							}) : <td>Dick</td>}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	)
 }
 
 function App() {
@@ -49,7 +81,7 @@ function App() {
 		.then(res => {
 			setState({
 				temp: res.main.temp,
-				feelsLike: res.feels_like,
+				feelsLike: res.main.feels_like,
 				description: res.weather[0].description,
 				location: `${res.name}, ${res.sys.country}`,
 				userInput: ""
@@ -57,42 +89,35 @@ function App() {
 		})
 	}, [])
 
-	// const [forecast, setForecast] = useState(
-	// 	fetch(`${api.base}forecast?q=Moscow&units=metric&APPID=${api.key}`)
-	// 	.then(res => res.json())
-	// )
-
 	const searchHandler = (event) => {
 		event.preventDefault()
-		console.log("Search handler called...")
 		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
-        .then(res => res.json())
-		.then(res => {
-			console.log(res)
-			setState({
-				temp: res.main.temp,
-				feelsLike: res.main.feels_like,
-				description: res.weather[0].description,
-				location: `${res.name}, ${res.sys.country}`,
-				userInput: ""
+        .then(weatherResponse => weatherResponse.json())
+		.then(weatherJSON => {
+			fetch(`${api.requestStartForecast}q=${state.userInput}&units=metric&APPID=${api.key}`)
+			.then(forecastResponse => forecastResponse.json())
+			.then(forecastJSON => {
+				console.log("Forecast response: ", forecastJSON)
+				setState({
+					temp: weatherJSON.main.temp,
+					feelsLike: weatherJSON.main.feels_like,
+					description: weatherJSON.weather[0].description,
+					location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
+					userInput: "",
+					forecastList: forecastJSON.list.map(forecastTimeStamp => {
+						return {
+							dt: forecastTimeStamp.dt,
+							temp: forecastTimeStamp.main.temp,
+							feelsLike: forecastTimeStamp.main.feels_like,
+							description: forecastTimeStamp.weather[0].description
+						}
+					})
+				})
 			})
 		})
-
-		// fetch(`${api.baseForecast}?q=${userInput}&&units=metric&APPID=${api.key}`)
-		// .then(res => res.json())
-		// .then(res => {
-		// 	console.log(res)
-		// 	for (let weatherSnapShot of res.list) {
-		// 		const date = new Date(weatherSnapShot.dt * 1000)
-		// 		console.log(
-		// 			`${date.getHours()}:${date.getMinutes()} ${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`,
-		// 			weatherSnapShot.dt
-		// 		)
-		// 	}
-		// })
 	}
 
-
+	useEffect(() => console.log("Re-rendered. Current state: ", state))
 
     return (
         <div className="App">

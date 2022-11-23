@@ -1,5 +1,6 @@
 import DateBox from "./DateBox"
-import { Emoji } from "./Emoji";
+// import { Emoji } from "./Emoji";
+import { ForecastTable } from "../App"
 
 
 const Main = props => {
@@ -20,17 +21,9 @@ const Main = props => {
 			{Math.round(state.temp)} &deg;C
 		</div>
 		<div className="description-box text-center">
-			{/* <Emoji symbol="" 
-						style={{
-							height: "125%",
-							fontSize: "3rem",
-							margin: "0 1rem",
-							position: "relative",
-							top: "0.5rem"
-						}}
-				/> */}
 			Feels like {Math.round(state.feelsLike)}&deg;C. {capitalizeFirstLetter(state.description)}.
 		</div>
+		<ForecastTable state={state} />
 	</main>) : (
 		<main>
 			<h1>Fetching data...</h1>
