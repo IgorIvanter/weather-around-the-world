@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main"
+import Footer from "./components/Footer";
 
 
 const api = {
@@ -110,7 +111,11 @@ function App() {
 
 			<Main state={state} />
 
-			{/* <button onClick={toggleBorders}>Enable borders</button> */}
+			<Footer state={state} />
+
+			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "none" }}>
+				Enable borders
+			</button>
         </div>
     );
 }
