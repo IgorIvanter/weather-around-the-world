@@ -126,6 +126,7 @@ nav {
 }
 
 .temp-box {
+    display: flex;
     font-size: 5rem;
     font-weight: bold;
     background-color: rgba(255, 255, 255, 0.2);
@@ -146,6 +147,17 @@ main td {
     font-size: 2rem;
     padding: 1rem;
     border-radius: 0rem;
+    width: 2rem;
+}
+
+.icon-cell {
+    padding: 0;
+}
+
+main td img {
+    display: block;
+    width: 75%;
+    margin: auto;
 }
 
 

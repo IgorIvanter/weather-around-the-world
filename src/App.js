@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main"
 
@@ -62,7 +62,8 @@ function App() {
 							dt: forecastTimeStamp.dt,
 							temp: forecastTimeStamp.main.temp,
 							feelsLike: forecastTimeStamp.main.feels_like,
-							description: forecastTimeStamp.weather[0].description
+							description: forecastTimeStamp.weather[0].description,
+							icon: forecastTimeStamp.weather[0].icon
 						}
 					})
 				})
@@ -90,7 +91,8 @@ function App() {
 							dt: forecastTimeStamp.dt,
 							temp: forecastTimeStamp.main.temp,
 							feelsLike: forecastTimeStamp.main.feels_like,
-							description: forecastTimeStamp.weather[0].description
+							description: forecastTimeStamp.weather[0].description,
+							icon: forecastTimeStamp.weather[0].icon
 						}
 					})
 				})
@@ -108,7 +110,7 @@ function App() {
 
 			<Main state={state} />
 
-			<button onClick={toggleBorders}>Enable borders</button>
+			{/* <button onClick={toggleBorders}>Enable borders</button> */}
         </div>
     );
 }
