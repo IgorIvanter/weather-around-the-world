@@ -43,7 +43,7 @@
 }
 
 main {
-    width: calc(100vw - 2rem);
+    width: 100vw;
     max-width: var(--main-max-width);
     min-height: 150vh;
     margin: auto;
@@ -52,6 +52,7 @@ main {
 
 body {
     background-color: grey;
+    height: fit-content;
 }
 
 .App {
@@ -64,6 +65,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 2px solid
 }
 
 .search {
@@ -140,10 +142,10 @@ nav {
 }
 
 main td {
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 5px solid rgba(255, 255, 255, 0.5);
     font-size: 2rem;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 0rem;
 }
 
 

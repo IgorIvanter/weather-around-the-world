@@ -1,6 +1,6 @@
 import DateBox from "./DateBox"
 // import { Emoji } from "./Emoji";
-import { ForecastTable } from "../App"
+import ForecastTable from "./ForecastTable"
 
 
 const Main = props => {
