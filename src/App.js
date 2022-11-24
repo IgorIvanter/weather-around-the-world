@@ -88,7 +88,7 @@ function App() {
 
 			<Footer state={state} />
 
-			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "block" }}>
+			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "none" }}>
 				Enable borders
 			</button>
 		</div>

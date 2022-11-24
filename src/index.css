@@ -25,6 +25,14 @@
 	border: var(--border-width) solid var(--border-color);
 }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 .text-center {
 	text-align: center;
 }
@@ -181,6 +189,15 @@ main td img {
 
 	.text {
 			margin: 0 0.5rem;
+	}
+
+	.search button {
+		transition: 0.1s;
+	}
+
+	.search button:hover {
+		background-color: var(--color6);
+		color: white;
 	}
 }
 
