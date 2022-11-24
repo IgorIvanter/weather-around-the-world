@@ -1,5 +1,6 @@
 import ForecastTable from "./ForecastTable"
 import CONSTANTS from "../constants"
+// import WeekForecastTable from "./WeekForecastTable";
 
 
 function capitalizeFirstLetter(string) {
@@ -35,8 +36,9 @@ const Main = ({state}) => {
 						Wind {state.wind.speed} m/s
 					</p>
 				</div>
-				<ForecastTable state={state} />
-			</main>)
+				<ForecastTable state={state} period="day" />
+				<ForecastTable state={state} period="week" />
+ 			</main>)
 	} else {
 		return (<main><h1>Fetching data...</h1></main>)
 	}

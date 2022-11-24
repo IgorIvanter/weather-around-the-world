@@ -39,8 +39,8 @@ function App() {
 						}
 					})
 				})
-			})
-		})
+			}).catch(error => console.log(error))
+		}).catch(error => console.log(error))
 	}
 
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.

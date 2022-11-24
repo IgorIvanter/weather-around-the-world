@@ -2,6 +2,7 @@ const CONSTANTS = {
 	CELCIUS_SYMBOL: '\u00b0C',
 	FAHRENHEIT_SYMBOL: '\u00b0F',
 	WEEK_DAYS: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+	WEEK_DAYS_SHORTENED: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
 	MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	FORECAST_TIMESTAMPS_NUMBER: 5,    // defines how many columns there wil be in the ForecastTable
 	MS_IN_A_SECOND: 1000,
