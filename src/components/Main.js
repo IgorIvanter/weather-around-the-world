@@ -30,7 +30,10 @@ const Main = ({state}) => {
 					{Math.round(state.temp)}{CONSTANTS.CELCIUS_SYMBOL}
 				</div>
 				<div className="description-box text-center text">
-					Feels like {Math.round(state.feelsLike)}{CONSTANTS.CELCIUS_SYMBOL}. {capitalizeFirstLetter(state.description)}.
+					<p>
+						Feels like {Math.round(state.feelsLike)}{CONSTANTS.CELCIUS_SYMBOL}. {capitalizeFirstLetter(state.description)}.
+						Wind {state.wind.speed} m/s
+					</p>
 				</div>
 				<ForecastTable state={state} />
 			</main>)

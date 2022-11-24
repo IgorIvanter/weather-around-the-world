@@ -16,7 +16,7 @@ function App() {
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
 		const initialLocation = "Moscow"
 		fetch(`${CONSTANTS.API.requestStartWeather}q=${initialLocation}&units=metric&APPID=${CONSTANTS.API.key}`)
-                .then(weatherResponse => weatherResponse.json())
+        .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
 			fetch(`${CONSTANTS.API.requestStartForecast}q=${initialLocation}&units=metric&APPID=${CONSTANTS.API.key}`)
 			.then(forecastResponse => forecastResponse.json())
@@ -27,12 +27,14 @@ function App() {
 					feelsLike: weatherJSON.main.feels_like,
 					description: weatherJSON.weather[0].description,
 					location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
+					wind: weatherJSON.wind,
 					userInput: "",
 					forecastList: forecastJSON.list.map(forecastTimeStamp => {
 						return {
 							dt: forecastTimeStamp.dt,
 							temp: forecastTimeStamp.main.temp,
 							feelsLike: forecastTimeStamp.main.feels_like,
+							wind: forecastTimeStamp.wind,
 							description: forecastTimeStamp.weather[0].description,
 							icon: forecastTimeStamp.weather[0].icon
 						}
@@ -66,11 +68,13 @@ function App() {
 							description: weatherJSON.weather[0].description,
 							location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
 							userInput: "",
+							wind: weatherJSON.wind,
 							forecastList: forecastJSON.list.map(forecastTimeStamp => {
 								return {
 									dt: forecastTimeStamp.dt,
 									temp: forecastTimeStamp.main.temp,
 									feelsLike: forecastTimeStamp.main.feels_like,
+									wind: forecastTimeStamp.wind,
 									description: forecastTimeStamp.weather[0].description,
 									icon: forecastTimeStamp.weather[0].icon
 								};
