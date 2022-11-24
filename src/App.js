@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import Header from "./components/Header";
 import Main from "./components/Main"
 import Footer from "./components/Footer";
+import useBorder from "./hooks/useBorder";
 
 
 const api = {
@@ -11,39 +12,13 @@ const api = {
 }
 
 function App() {
+	const toggleBorders = useBorder()	// This hook returns a function that shows/hides all borders of all elements in the doc
 
-	// borderWidth state is used to track if the borders are shown or not:
-
-	const initialBorderWidthAfterLoading = 0
-
-	const [borderWidth, setBorder] = useState(initialBorderWidthAfterLoading)
-
-	const toggleBorders = (event) => {
-		setBorder(prevColorIndex => 1 - prevColorIndex)
-		document.documentElement.style.setProperty("--border-width", borderWidth)
-		console.log(`Done. Border width: ${borderWidth}`)
-	}
-
-	useEffect(() => {
-		document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
-	}, [borderWidth])
-
-	const handleInputChange = event => {
-		setState({
-			...state,
-			userInput: event.target.value
-		})
-	}
-
-	const [state, setState] = useState({
+	const [state, setState] = useState({	// All weather forecasts and user input is stored in this state
 		userInput: ""
 	})
 
-	// This effect sets up the initial data that's displayed on the screen directly after the page is loaded.
-
-	// It shows the weather for the city {initialLocation}:
-
-	useEffect(() => {
+	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
 		const initialLocation = "Moscow"
 		fetch(`${api.requestStartWeather}q=${initialLocation}&units=metric&APPID=${api.key}`)
         .then(weatherResponse => weatherResponse.json())
@@ -72,7 +47,16 @@ function App() {
 		})
 	}, [])
 
-	const handleSubmit = (event) => {
+	useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
+
+	const handleInputChange = event => {	// onChange handler for controlled input field
+		setState({
+			...state,
+			userInput: event.target.value
+		})
+	}
+
+	const handleSubmit = (event) => {	// Search button click / submit handler
 		event.preventDefault()
 		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
         .then(weatherResponse => weatherResponse.json())
@@ -101,8 +85,6 @@ function App() {
 		})
 	}
 
-	useEffect(() => console.log("Re-rendered. Current state: ", state))
-
     return (
         <div className="App">
 			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state}></Header>
@@ -111,7 +93,7 @@ function App() {
 
 			<Footer state={state} />
 
-			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "none" }}>
+			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "block" }}>
 				Enable borders
 			</button>
         </div>

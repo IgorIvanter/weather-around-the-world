@@ -1,4 +1,4 @@
-import useWindowDimensions from "./useWindowDimensions";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const FORECAST_TIMESTAMPS_NUMBER = 5;   // defines how many columns there wil be in the ForecastTable
 const MS_IN_A_SECOND = 1000
@@ -74,7 +74,7 @@ const VerticalTable = ({state}) => {
 }
 
 const ForecastTable = props => {
-    const {width, height} = useWindowDimensions()
+    const {width} = useWindowDimensions()
 
 	const state = props.state
 	const style = {
