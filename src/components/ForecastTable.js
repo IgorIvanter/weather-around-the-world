@@ -13,34 +13,28 @@ const HorizontalTable = ({state}) => {
             <table>
                 <tbody>
                     <tr>
-                        {state.forecastList ? state.forecastList.map((item, index) => {
-                            return (
-                                index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                                && 
-                                <td className="text-center" key={item.dt}>
-                                    {getTime(item.dt)}
-                                </td>)
-                    }) : <td>Dick</td>}
+                        {state.forecastList.map((item, index) => (
+                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
+                            && 
+                            <td className="text-center" key={item.dt}>
+                                {getTime(item.dt)}
+                            </td>))}
                     </tr>
                     <tr>
-                        {state.forecastList.map((item, index) => {
-                            return (
-                                index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                                &&
-                                <td className="text-center" key={item.dt}>
-                                    {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
-                                </td>)
-                        })}
+                        {state.forecastList.map((item, index) => (
+                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
+                            &&
+                            <td className="text-center" key={item.dt}>
+                                {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
+                            </td>))}
                     </tr>
                     <tr>
-                        {state.forecastList.map((item, index) => {
-                            return (
-                                index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                                &&
-                                <td className="text-center icon-cell" key={item.dt}>
-                                    <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt=""></img>
-                                </td>)
-                        })}
+                        {state.forecastList.map((item, index) => (
+                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
+                            &&
+                            <td className="text-center icon-cell" key={item.dt}>
+                                <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt=""></img>
+                            </td>))}
                     </tr>
                 </tbody>
             </table>)
