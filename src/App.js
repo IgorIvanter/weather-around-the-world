@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import NavBar from "./components/NavBar";
+import Header from "./components/Header";
 import Main from "./components/Main"
 import Footer from "./components/Footer";
 
@@ -28,7 +28,7 @@ function App() {
 		document.documentElement.style.setProperty("--border-width", `${borderWidth}px`)
 	}, [borderWidth])
 
-	const userInputChangeHandler = event => {
+	const handleInputChange = event => {
 		setState({
 			...state,
 			userInput: event.target.value
@@ -72,7 +72,7 @@ function App() {
 		})
 	}, [])
 
-	const searchHandler = (event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault()
 		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
         .then(weatherResponse => weatherResponse.json())
@@ -105,9 +105,7 @@ function App() {
 
     return (
         <div className="App">
-			<header>
-				<NavBar onChange={userInputChangeHandler} onSubmit={searchHandler} state={state}></NavBar>
-			</header>
+			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state}></Header>
 
 			<Main state={state} />
 
