@@ -18,7 +18,7 @@ const ForecastTable = props => {
 		boxShadow: "5px 5px rgba(0, 0, 0, 0.2)"
 	}
 	return (
-		<div style={style}>
+		<div style={style} className="ForecastTable">
 			<h1 className="text-center">Weather Forecast</h1>
 			<div style={{
 				display: "flex",

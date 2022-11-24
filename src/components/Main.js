@@ -15,14 +15,14 @@ const Main = props => {
 	return Object.keys(state).length > 1 ? (
 		<div>
 			<main>
-				<div className="location-box text-center">
+				<div className="location-box text-center text">
 					{state.location}
 					<DateBox />
 				</div>
 				<div className="temp-box">
 					{Math.round(state.temp)} &deg;C
 				</div>
-				<div className="description-box text-center">
+				<div className="description-box text-center text">
 					Feels like {Math.round(state.feelsLike)}&deg;C. {capitalizeFirstLetter(state.description)}.
 				</div>
 				<ForecastTable state={state} />

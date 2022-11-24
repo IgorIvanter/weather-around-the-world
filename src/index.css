@@ -34,7 +34,7 @@
 }
 
 main {
-    width: 100vw;
+    width: 100%;
     max-width: var(--main-max-width);
     min-height: 150vh;
     margin: 0 auto;
@@ -73,6 +73,7 @@ nav {
     border-radius: 1rem;
     padding: 0.5rem 1rem;
     font-size: 1.5rem;
+    width: 100%;
     margin-right: -1rem;
     background-color: rgba(255, 255, 255, 1);
 }
@@ -148,6 +149,20 @@ main td img {
     display: block;
     width: 75%;
     margin: auto;
+}
+
+@media (max-width: 990px) {
+    .page-title {
+        display: none;
+    }
+
+    nav {
+        justify-content: center;
+    }
+
+    .text {
+        margin: 0 0.5rem;
+    }
 }
 
 
