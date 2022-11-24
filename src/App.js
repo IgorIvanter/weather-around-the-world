@@ -13,12 +13,11 @@ function App() {
 		userInput: ""
 	})
 
-	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
-		const initialLocation = "Moscow"
-		fetch(`${CONSTANTS.API.requestStartWeather}q=${initialLocation}&units=metric&APPID=${CONSTANTS.API.key}`)
+	const updateState = (location) => {		// Function to fetch data and update state
+		fetch(`${CONSTANTS.API.requestStartWeather}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
         .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
-			fetch(`${CONSTANTS.API.requestStartForecast}q=${initialLocation}&units=metric&APPID=${CONSTANTS.API.key}`)
+			fetch(`${CONSTANTS.API.requestStartForecast}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
 			.then(forecastResponse => forecastResponse.json())
 			.then(forecastJSON => {
 				console.log("Initial forecast response: ", forecastJSON)
@@ -42,6 +41,11 @@ function App() {
 				})
 			})
 		})
+	}
+
+	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
+		const initialLocation = "Moscow"
+		updateState(initialLocation)
 	}, [])
 
 	useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
@@ -55,33 +59,7 @@ function App() {
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		fetch(`${CONSTANTS.API.requestStartWeather}q=${state.userInput}&units=metric&APPID=${CONSTANTS.API.key}`)
-			.then(weatherResponse => weatherResponse.json())
-			.then(weatherJSON => {
-				fetch(`${CONSTANTS.API.requestStartForecast}q=${state.userInput}&units=metric&APPID=${CONSTANTS.API.key}`)
-					.then(forecastResponse => forecastResponse.json())
-					.then(forecastJSON => {
-						console.log("Forecast response: ", forecastJSON);
-						setState({
-							temp: weatherJSON.main.temp,
-							feelsLike: weatherJSON.main.feels_like,
-							description: weatherJSON.weather[0].description,
-							location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
-							userInput: "",
-							wind: weatherJSON.wind,
-							forecastList: forecastJSON.list.map(forecastTimeStamp => {
-								return {
-									dt: forecastTimeStamp.dt,
-									temp: forecastTimeStamp.main.temp,
-									feelsLike: forecastTimeStamp.main.feels_like,
-									wind: forecastTimeStamp.wind,
-									description: forecastTimeStamp.weather[0].description,
-									icon: forecastTimeStamp.weather[0].icon
-								};
-							})
-						});
-					});
-			});
+		updateState(state.userInput)
 	}
 
 	return (
