@@ -23,7 +23,7 @@ const formatProp = (item, propKey) => {
 
 const HorizontalTable = ({state}) => {
     return (
-        <table>
+        <table className="ForecastTable">
             <tbody>
                 {["dt", "temp", "icon"].map(propKey => (
                     <tr key={propKey}>
@@ -41,7 +41,7 @@ const HorizontalTable = ({state}) => {
 
 const VerticalTable = ({state}) => {
     return (
-        <table>
+        <table className="ForecastTable">
             <tbody>
                 {state.forecastList.map((item, index) => (
                     index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
@@ -58,10 +58,8 @@ const VerticalTable = ({state}) => {
         </table>)
 }
 
-const ForecastTable = props => {
-        const {width} = useWindowDimensions()
-
-	const state = props.state
+const ForecastTable = ({state}) => {
+    const {width} = useWindowDimensions()
 	const style = {
 		backgroundColor: "rgba(255, 255, 255, 0.2)",
 		borderRadius: "1rem",
