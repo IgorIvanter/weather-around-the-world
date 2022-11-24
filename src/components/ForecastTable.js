@@ -1,3 +1,4 @@
+import WeatherIcon from "./WeatherIcon"
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import CONSTANTS from "../constants";
 
@@ -47,7 +48,7 @@ const ForecastTable = ({state, period}) => {
             case "temp":
                 return `${Math.round(item.temp)}${CONSTANTS.CELCIUS_SYMBOL}`
             case "icon":
-                return <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt=""></img>
+                return <WeatherIcon iconID={item.icon} />
             default:
                 throw new Error("Wrong property key. Either 'dt', 'temp' or 'icon' ")
         }
