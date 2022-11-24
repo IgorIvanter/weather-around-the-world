@@ -34,7 +34,7 @@ const ForecastTable = ({state, period}) => {
             break
         case "week":
             formatDate = getDayString
-            indexCondition = index => index % 8 === 0
+            indexCondition = index => index % (CONSTANTS.HOURS_IN_A_DAY / CONSTANTS.FORECAST_TIMESTAMPS_FREQUENCY_HR) === 0
             break
         default:
             throw new TypeError("ForecastTable's period prop value can be either 'week' or 'day' ")
