@@ -1,4 +1,5 @@
 import ForecastTable from "./ForecastTable"
+import WeatherIcon from "./WeatherIcon"
 import CONSTANTS from "../constants"
 // import WeekForecastTable from "./WeekForecastTable";
 
@@ -28,6 +29,7 @@ const Main = ({state}) => {
 					<DateBox />
 				</div>
 				<div className="temp-box">
+					<WeatherIcon iconID={state.icon} style={{height: "9rem"}} />
 					{Math.round(state.temp)}{CONSTANTS.CELCIUS_SYMBOL}
 				</div>
 				<div className="description-box text-center text">

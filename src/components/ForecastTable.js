@@ -3,17 +3,6 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 import CONSTANTS from "../constants";
 
 
-const getTimeString = dt => {
-    const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
-    let hours = date.getHours()
-    return (hours < 10 ? "0" : "") + `${hours}:00`
-}
-
-const getDayString = dt => {
-    const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
-    return `${CONSTANTS.WEEK_DAYS_SHORTENED[date.getDay()]}`
-}
-
 const ForecastTable = ({state, period}) => {
     const {width} = useWindowDimensions()
 	const style = {
@@ -24,6 +13,17 @@ const ForecastTable = ({state, period}) => {
 		padding: "1rem",
 		boxShadow: "5px 5px rgba(0, 0, 0, 0.2)"
 	}
+
+    const getTimeString = dt => {
+        const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
+        let hours = date.getHours()
+        return (hours < 10 ? "0" : "") + `${hours}:00`
+    }
+    
+    const getDayString  = dt => {
+        const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
+        return `${CONSTANTS.WEEK_DAYS_SHORTENED[date.getDay()]}`
+    }
 
     let formatDate
     let indexCondition
@@ -41,7 +41,7 @@ const ForecastTable = ({state, period}) => {
             throw new TypeError("ForecastTable's period prop value can be either 'week' or 'day' ")
     }
 
-    const formatProp = (item, propKey) => {
+    const formatTimestampProperty = (item, propKey) => {
         switch(propKey) {
             case "dt":
                 return formatDate(item.dt)
@@ -71,7 +71,7 @@ const ForecastTable = ({state, period}) => {
                             <tr key={index}>
                                 {["dt", "temp", "icon"].map(propKey => (
                                     <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={propKey}>
-                                        {formatProp(item, propKey)}
+                                        {formatTimestampProperty(item, propKey)}
                                     </td>)
                                 )}
                             </tr>)
@@ -83,7 +83,7 @@ const ForecastTable = ({state, period}) => {
                                     indexCondition(index)
                                     && 
                                     <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={item.dt}>
-                                        {formatProp(item, propKey)}
+                                        {formatTimestampProperty(item, propKey)}
                                     </td>))}
                             </tr>)
                         )}

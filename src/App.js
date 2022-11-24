@@ -27,6 +27,7 @@ function App() {
 					description: weatherJSON.weather[0].description,
 					location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
 					wind: weatherJSON.wind,
+					icon: weatherJSON.weather[0].icon,
 					userInput: "",
 					forecastList: forecastJSON.list.map(forecastTimeStamp => {
 						return {
