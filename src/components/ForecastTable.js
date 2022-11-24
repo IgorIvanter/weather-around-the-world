@@ -1,4 +1,5 @@
 import useWindowDimensions from "../hooks/useWindowDimensions";
+import CONSTANTS from "../constants";
 
 const FORECAST_TIMESTAMPS_NUMBER = 5;   // defines how many columns there wil be in the ForecastTable
 const MS_IN_A_SECOND = 1000
@@ -31,7 +32,7 @@ const HorizontalTable = ({state}) => {
                             index < FORECAST_TIMESTAMPS_NUMBER
                             &&
                             <td className="text-center" key={item.dt}>
-                                {Math.round(item.temp)}&deg;C
+                                {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
                             </td>)
                     })}
                 </tr>
@@ -62,7 +63,7 @@ const VerticalTable = ({state}) => {
                                 {getTime(item.dt)}
                             </td>
                             <td className="text-center">
-                                {Math.round(item.temp)}&deg;C
+                                {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
                             </td>
                             <td className="text-center icon-cell" key={item.dt}>
                                 <img src={`${ICON_URL_START}${item.icon}@2x.png`} alt="" ></img>

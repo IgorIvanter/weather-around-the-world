@@ -1,16 +1,22 @@
-import DateBox from "./DateBox"
-// import { Emoji } from "./Emoji";
 import ForecastTable from "./ForecastTable"
+import CONSTANTS from "../constants"
 
 
-const Main = props => {
+const DateBox = () => {
+	const date = new Date()
+	return <div className="date-box">
+		{`${CONSTANTS.WEEK_DAYS[date.getDay()]}, ${CONSTANTS.MONTHS[date.getMonth()]} ${date.getDate()}st ${date.getFullYear()}`}
+	</div>
+}
+
+const Main = ({state}) => {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-	const state = props.state
-
 	/* Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */
+
+	// TODO: for that, use a bool flag that will be stored in the state, false when data didn't come
 
 	return Object.keys(state).length > 1 ? (
 		<div>
@@ -20,10 +26,10 @@ const Main = props => {
 					<DateBox />
 				</div>
 				<div className="temp-box">
-					{Math.round(state.temp)} &deg;C
+					{Math.round(state.temp)} {CONSTANTS.CELCIUS_SYMBOL}
 				</div>
 				<div className="description-box text-center text">
-					Feels like {Math.round(state.feelsLike)}&deg;C. {capitalizeFirstLetter(state.description)}.
+					Feels like {Math.round(state.feelsLike)}{CONSTANTS.CELCIUS_SYMBOL}. {capitalizeFirstLetter(state.description)}.
 				</div>
 				<ForecastTable state={state} />
 			</main>
