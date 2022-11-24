@@ -7,6 +7,11 @@ const CONSTANTS = {
 	MS_IN_A_SECOND: 1000,
 	WEATHER_ICON_URL_START: "https://openweathermap.org/img/wn/",
 	MOBILE_MAX_WIDTH: 990,
+	LINKEDIN_PROFILE_URL: "https://www.linkedin.com/in/igor-ivanter-abab26256/",
+	CONTACT_DATA: {
+		LINKEDIN_PROFILE_URL: "https://www.linkedin.com/in/igor-ivanter-abab26256/",
+		GITHUB_PROFILE_URL: "https://github.com/IgorIvanter"
+	},
 	API: {
 		key: "076d1ea1151407ab670c718939b77745",
 		requestStartWeather: "https://api.openweathermap.org/data/2.5/weather?",
