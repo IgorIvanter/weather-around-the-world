@@ -8,60 +8,54 @@ const getTime = dt => {
     return (hours < 10 ? "0" : "") + `${hours}:00`
 }
 
+const formatProp = (item, propKey) => {
+    switch(propKey) {
+        case "dt":
+            return getTime(item.dt)
+        case "temp":
+            return `${Math.round(item.temp)}${CONSTANTS.CELCIUS_SYMBOL}`
+        case "icon":
+            return <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt=""></img>
+        default:
+            throw new Error("Wrong property key. Either 'dt', 'temp' or 'icon' ")
+    }
+}
+
 const HorizontalTable = ({state}) => {
     return (
-            <table>
-                <tbody>
-                    <tr>
+        <table>
+            <tbody>
+                {["dt", "temp", "icon"].map(propKey => (
+                    <tr key={propKey}>
                         {state.forecastList.map((item, index) => (
                             index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
                             && 
-                            <td className="text-center" key={item.dt}>
-                                {getTime(item.dt)}
+                            <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={item.dt}>
+                                {formatProp(item, propKey)}
                             </td>))}
-                    </tr>
-                    <tr>
-                        {state.forecastList.map((item, index) => (
-                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                            &&
-                            <td className="text-center" key={item.dt}>
-                                {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
-                            </td>))}
-                    </tr>
-                    <tr>
-                        {state.forecastList.map((item, index) => (
-                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                            &&
-                            <td className="text-center icon-cell" key={item.dt}>
-                                <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt=""></img>
-                            </td>))}
-                    </tr>
-                </tbody>
-            </table>)
+                    </tr>)
+                )}
+            </tbody>
+        </table>)
 }
 
 const VerticalTable = ({state}) => {
-        return (
-            <table>
-                <tbody>
-                    {state.forecastList ? state.forecastList.map((item, index) => {
-                        return (
-                            index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
-                            && 
-                            <tr key={index}>
-                                    <td className="text-center">
-                                        {getTime(item.dt)}
-                                    </td>
-                                    <td className="text-center">
-                                        {Math.round(item.temp)}{CONSTANTS.CELCIUS_SYMBOL}
-                                    </td>
-                                    <td className="text-center icon-cell" key={item.dt}>
-                                        <img src={`${CONSTANTS.WEATHER_ICON_URL_START}${item.icon}@2x.png`} alt="" ></img>
-                                    </td>
-                            </tr>)
-                    }) : <td>Dick</td>}
-                </tbody>
-            </table>)
+    return (
+        <table>
+            <tbody>
+                {state.forecastList.map((item, index) => (
+                    index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
+                    && 
+                    <tr key={index}>
+                        {["dt", "temp", "icon"].map(propKey => (
+                            <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={propKey}>
+                                {formatProp(item, propKey)}
+                            </td>)
+                        )}
+                    </tr>)
+                )}
+            </tbody>
+        </table>)
 }
 
 const ForecastTable = props => {
