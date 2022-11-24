@@ -1,169 +1,169 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Didact+Gothic&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Markazi+Text:wght@400;500;600;700&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 
 :root {
-    font-family: 'Source Serif Pro', sans-serif;
-    font-size: 18px;
+        font-family: 'Source Serif Pro', sans-serif;
+        font-size: 18px;
 
-    --main-max-width: 1100px;
-    --border-width: 1px;
-    --border-color: black;
+        --main-max-width: 1100px;
+        --border-width: 1px;
+        --border-color: black;
 
 
-    --color1: #E3F2FD;
-    --color2: #bbdefb;
-    --color3: #90caf9;
-    --color4: #64b5f6;
-    --color5: #2196f3;
-    --color6: #0d47a1;
+        --color1: #E3F2FD;
+        --color2: #bbdefb;
+        --color3: #90caf9;
+        --color4: #64b5f6;
+        --color5: #2196f3;
+        --color6: #0d47a1;
 
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border: var(--border-width) solid var(--border-color);
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        border: var(--border-width) solid var(--border-color);
 }
 
 .text-center {
-    text-align: center;
+        text-align: center;
 }
 
 .text {
-    font-weight: 600;
+        font-weight: 600;
 }
 
 main {
-    width: 100%;
-    max-width: var(--main-max-width);
-    min-height: 150vh;
-    margin: 0 auto;
-    background-color: var(--color4);
-    border-bottom: 2px solid var(--color4);
+        width: 100%;
+        max-width: var(--main-max-width);
+        min-height: 150vh;
+        margin: 0 auto;
+        background-color: var(--color4);
+        border-bottom: 2px solid var(--color4);
 }
 
 body {
-    background-color: grey;
-    height: fit-content;
+        background-color: grey;
+        height: fit-content;
 }
 
 .App {
-    background-color: var(--color2);
-    height: fit-content;
+        background-color: var(--color2);
+        height: fit-content;
 }
 
 nav {
-    background-image: linear-gradient(to right, #37D5D6, #36096D);
-    padding: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid
+        background-image: linear-gradient(to right, #37D5D6, #36096D);
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid
 }
 
 .search {
-    display: flex;
-    justify-content: center;
-    width: fit-content;
-    border-radius: 1rem;
-    box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+        border-radius: 1rem;
+        box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search input {
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 1.5rem;
-    width: 100%;
-    margin-right: -1rem;
-    background-color: rgba(255, 255, 255, 1);
+        border-radius: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 1.5rem;
+        width: 100%;
+        margin-right: -1rem;
+        background-color: rgba(255, 255, 255, 1);
 }
 
 .search input:focus {
-    outline: none;
+        outline: none;
 }
 
 .search button {
-    border-radius: 1rem;
-    padding: 0.5rem;
-    font-size: 1rem;
-    margin-left: -1rem;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0s;
-    z-index: 99;
-    background-color: var(--color6);
-    color: white;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin-left: -1rem;
+        transition: background-color 0.3s, color 0.3s, box-shadow 0s;
+        z-index: 99;
+        background-color: var(--color6);
+        color: white;
 }
 
 .search button:hover {
-    color: var(--color6);
-    background-color: white;
-    border: 1px solid var(--color6);
+        color: var(--color6);
+        background-color: white;
+        border: 1px solid var(--color6);
 }
 
 .search button:active {
-    box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
 }
 
 .location-box {
-    font-weight: bold;
-    margin: auto;
-    padding-top: 5rem;
-    font-size: 3rem;
+        font-weight: bold;
+        margin: auto;
+        padding-top: 5rem;
+        font-size: 3rem;
 }
 
 .date-box {
-    font-weight: bold;
-    font-style: italic;
-    font-size: 0.75em;
+        font-weight: bold;
+        font-style: italic;
+        font-size: 0.75em;
 }
 
 .temp-box {
-    display: flex;
-    font-size: 5rem;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.2);
-    width: fit-content;
-    margin: 5rem auto;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        font-size: 5rem;
+        font-weight: bold;
+        background-color: rgba(255, 255, 255, 0.2);
+        width: fit-content;
+        margin: 5rem auto;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .description-box {
-    font-size: 2rem;
-    font-weight: bold;
+        font-size: 2rem;
+        font-weight: bold;
 }
 
 main td {
-    border: 5px solid rgba(255, 255, 255, 0.5);
-    font-size: 2rem;
-    padding: 1rem;
-    border-radius: 0rem;
-    width: 2rem;
+        border: 5px solid rgba(255, 255, 255, 0.5);
+        font-size: 2rem;
+        padding: 1rem;
+        border-radius: 0rem;
+        width: 2rem;
 }
 
 .icon-cell {
-    padding: 0;
-    min-width: 6rem;
+        padding: 0;
+        min-width: 6rem;
 }
 
 main td img {
-    display: block;
-    width: 75%;
-    margin: auto;
+        display: block;
+        width: 75%;
+        margin: auto;
 }
 
 @media (max-width: 990px) {
-    .page-title {
-        display: none;
-    }
+        .page-title {
+                display: none;
+        }
 
-    nav {
-        justify-content: center;
-    }
+        nav {
+                justify-content: center;
+        }
 
-    .text {
-        margin: 0 0.5rem;
-    }
+        .text {
+                margin: 0 0.5rem;
+        }
 }
 
 

@@ -21,7 +21,7 @@ function App() {
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
 		const initialLocation = "Moscow"
 		fetch(`${api.requestStartWeather}q=${initialLocation}&units=metric&APPID=${api.key}`)
-        .then(weatherResponse => weatherResponse.json())
+                .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
 			fetch(`${api.requestStartForecast}q=${initialLocation}&units=metric&APPID=${api.key}`)
 			.then(forecastResponse => forecastResponse.json())
@@ -59,7 +59,7 @@ function App() {
 	const handleSubmit = (event) => {	// Search button click / submit handler
 		event.preventDefault()
 		fetch(`${api.requestStartWeather}q=${state.userInput}&units=metric&APPID=${api.key}`)
-        .then(weatherResponse => weatherResponse.json())
+                .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
 			fetch(`${api.requestStartForecast}q=${state.userInput}&units=metric&APPID=${api.key}`)
 			.then(forecastResponse => forecastResponse.json())
@@ -85,8 +85,8 @@ function App() {
 		})
 	}
 
-    return (
-        <div className="App">
+        return (
+                <div className="App">
 			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state}></Header>
 
 			<Main state={state} />
@@ -96,8 +96,8 @@ function App() {
 			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "block" }}>
 				Enable borders
 			</button>
-        </div>
-    );
+                </div>
+        );
 }
 
 export default App;

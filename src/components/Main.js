@@ -14,7 +14,7 @@ const DateBox = () => {
 }
 
 const Main = ({state}) => {
-    // Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */
+        // Conditional Rendering: if the response to the initial request didn't come, <h1>Fetching data...<h1> is displayed */
 
 	// TODO: for that, use a bool flag that will be stored in the state, false when data didn't come
 
