@@ -143,6 +143,7 @@ main td {
 
 .icon-cell {
     padding: 0;
+    min-width: 6rem;
 }
 
 main td img {
