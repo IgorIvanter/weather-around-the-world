@@ -25,7 +25,7 @@ const Main = ({state}) => {
 					{state.location}
 					<DateBox />
 				</div>
-				<div className="temp-box text">
+				<div className="temp-box">
 					{Math.round(state.temp)}{CONSTANTS.CELCIUS_SYMBOL}
 				</div>
 				<div className="description-box text-center text">
