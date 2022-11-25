@@ -65,7 +65,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state} />
+			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state} fetchState={fetchState} />
 
 			{/* <AltSearchBar onChange={handleInputChange} state={state} onSubmit={handleSubmit} setState={setState} fetchState={fetchState}/> */}
 

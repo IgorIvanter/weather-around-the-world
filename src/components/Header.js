@@ -5,7 +5,7 @@ const Header = props => {
 		<header>
 			<nav>
 				<h1 className="text-cetner page-title">Weather Forecast around the World</h1>
-				<SearchBar onChange={props.onChange} onSubmit={props.onSubmit} state={props.state} />
+				<SearchBar {...props} />
 			</nav>
 		</header>
 	)

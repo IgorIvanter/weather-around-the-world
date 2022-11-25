@@ -5,16 +5,40 @@ import { geoAPI } from '../constants.js'
 const SearchBar = props => {
 	const state = props.state
 
-	const ref = useRef()
+	const inputRef = useRef()
 
 	const [hasFocus, setFocus] = useState(false)	// tracks if the input field is focused
 	const toggleFocus = () => { setFocus(!hasFocus) }	// toggles hasFocus
 
 	useEffect(() => {	// initialize hasFocus properly
-		if (document.hasFocus() && ref.current.contains(document.activeElement)) {
+		if (document.hasFocus() && inputRef.current.contains(document.activeElement)) {
 			setFocus(true);
 		}
 	}, [])
+
+	function useHover() {
+		const [value, setValue] = useState(false);
+		const ref = useRef(null);
+		const handleMouseOver = () => setValue(true);
+		const handleMouseOut = () => setValue(false);
+		useEffect(
+		  () => {
+			const node = ref.current;
+			if (node) {
+			  node.addEventListener("mouseover", handleMouseOver);
+			  node.addEventListener("mouseout", handleMouseOut);
+			  return () => {
+				node.removeEventListener("mouseover", handleMouseOver);
+				node.removeEventListener("mouseout", handleMouseOut);
+			  };
+			}
+		  }// ,
+		  // [ref.current] // Recall only if ref changes
+		);
+		return [ref, value];
+	  }
+
+	const [dropdownRef, isDropdownHovered] = useHover()
 
 	const dropdownStyle = {
 		backgroundColor: "whitesmoke",
@@ -29,15 +53,18 @@ const SearchBar = props => {
 
 	const updateSuggestions = () => {
 		const minPopulation = 500000
-		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&namePrefix=${state.userInput}`, geoAPI.options)
+		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 			.then(response => response.json())
-			.then(json => setSuggestions(json.data.map(city => {
-				return {
-					name: city.name.toLowerCase(),	// also need country
-					lat: city.latitude,
-					lon: city.longtitude
-				}
-			}))
+			.then(json => {
+				console.log(json)
+				setSuggestions(json.data.map(city => {
+					return {
+						name: city.name.toLowerCase(),	// also need country
+						lat: city.latitude,
+						lon: city.longtitude
+					}
+				}))
+			}
 			)
 			.catch(error => console.log(error))
 	}
@@ -69,16 +96,27 @@ const SearchBar = props => {
 						value={props.state.userInput}
 						onFocus={toggleFocus}
 						onBlur={toggleFocus}
-						ref={ref}>
+						ref={inputRef}>
 					</input>
 					<button onClick={props.onSubmit}>Search!</button>
 				</form>
 			</div>
 			<div
 				className={`dropdown ${hasFocus && "opened"}`}
-				style={dropdownStyle}>
+				style={{...dropdownStyle, backgroundColor: isDropdownHovered ? "green" : "blue"}}
+				ref={dropdownRef}>
 				<ul>
-					{suggestions.map(city => <li key={city.name}>{city.name}</li>)}
+					{suggestions.map(city => {
+						return (
+							<li key={city.name}>
+								<button onClick={() => {
+									console.log(`Fetching data about location: ${city.name}`)
+									props.fetchState(city.name)
+								}} >
+									{city.name}
+								</button>
+							</li>)
+					})}
 				</ul>
 			</div>
 		</div>)
