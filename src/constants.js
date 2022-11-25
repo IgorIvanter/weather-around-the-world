@@ -19,7 +19,18 @@ const CONSTANTS = {
 		key: "076d1ea1151407ab670c718939b77745",
 		requestStartWeather: "https://api.openweathermap.org/data/2.5/weather?",
 		requestStartForecast: "https://api.openweathermap.org/data/2.5/forecast?"
-	}
+	},
+}
+
+export const geoAPI = {
+	options: {
+		method: 'GET',
+		headers: {
+			'X-RapidAPI-Key': '6494caa2bdmsh563fa6da6235c68p18f750jsna65131608f40',
+			'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+		}
+	},
+	requestStart: 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?'
 }
 
 export default CONSTANTS

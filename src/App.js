@@ -13,7 +13,7 @@ function App() {
 		userInput: ""
 	})
 
-	const updateState = (location) => {		// Function to fetch data and update state
+	const fetchState = (location) => {		// Function to fetch data and update state
 		fetch(`${CONSTANTS.API.requestStartWeather}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
         .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
@@ -46,7 +46,7 @@ function App() {
 
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
 		const initialLocation = "Moscow"
-		updateState(initialLocation)
+		fetchState(initialLocation)
 	}, [])
 
 	useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
@@ -54,24 +54,26 @@ function App() {
 	const handleInputChange = event => {	// onChange handler for controlled input field
 		setState({
 			...state,
-			userInput: event.target.value
+			userInput: event.target ? event.target.value : ""
 		})
 	}
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		updateState(state.userInput)
+		fetchState(state.userInput)
 	}
 
 	return (
 		<div className="App">
 			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state} />
 
+			{/* <AltSearchBar onChange={handleInputChange} state={state} onSubmit={handleSubmit} setState={setState} fetchState={fetchState}/> */}
+
 			<Main state={state} />
 
 			<Footer state={state} />
 
-			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "none" }}>
+			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "block" }}>
 				Enable borders
 			</button>
 		</div>
