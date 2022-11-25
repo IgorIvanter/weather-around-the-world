@@ -77,7 +77,7 @@ nav {
 	width: fit-content;
 	border-radius: 1rem;
 	box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
-	z-index: 2;
+	z-index: 12;
 	position: relative;
 }
 
@@ -117,6 +117,7 @@ nav {
 
 .dropdown {
 	display: none;
+	z-index: 10;
 }
 
 .dropdown.opened {
