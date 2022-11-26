@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
+import useBorder from "./hooks/useBorder";
 import Header from "./components/Header";
 import Main from "./components/Main"
 import Footer from "./components/Footer";
-import useBorder from "./hooks/useBorder";
 import CONSTANTS from "./constants";
 
 
@@ -50,14 +50,7 @@ function App() {
 		fetchState(initialLocation)
 	}, [])
 
-	useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
-
-	const handleInputChange = event => {	// onChange handler for controlled input field
-		setState({
-			...state,
-			userInput: event.target ? event.target.value : ""
-		})
-	}
+	// useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
 
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -66,15 +59,20 @@ function App() {
 
 	return (
 		<div className="App">
-			<Header onChange={handleInputChange} onSubmit={handleSubmit} state={state} fetchState={fetchState} />
-
-			{/* <AltSearchBar onChange={handleInputChange} state={state} onSubmit={handleSubmit} setState={setState} fetchState={fetchState}/> */}
+			<Header onSubmit={handleSubmit} state={state} fetchState={fetchState} setState={setState} />
 
 			<Main state={state} />
 
 			<Footer state={state} />
 
-			<button onClick={toggleBorders} style={{ position: "absolute", bottom: "0", left: "0", display: "block" }}>
+			<button
+				onClick={toggleBorders}
+				style={{
+					position: "absolute",
+					bottom: "0",
+					left: "0",
+					display: "none" 
+				}}>
 				Enable borders
 			</button>
 		</div>

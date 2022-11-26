@@ -9,7 +9,7 @@ const minPopulation = 500000
 const inputWidth = "20rem"
 
 
-function SearchBar({ state, fetchState, onChange }) {
+function SearchBar({ state, fetchState, setState }) {
 
 	const inputRef = useRef()	// Reference to the input element
 
@@ -41,11 +41,29 @@ function SearchBar({ state, fetchState, onChange }) {
 		zIndex: 40
 	}
 
-	const updateSuggestions = useCallback(() => {	// updates suggestions based on current input
+	const commonWidthStyle = {
+		display: "block",
+		width: inputWidth
+	}
+
+	const updateSuggestions = useCallback((code) => {	// updates suggestions based on current input
+		switch (code) {
+			case 0:
+				console.log(`Fetching from inside the input onChange function for prefix ${state.userInput}`)
+				break
+			case 1:
+				console.log(`Fetching from inside the useEffect for prefix ${state.userInput}`)
+				break
+			default:
+				throw new Error("Something went wrong nigga...")
+		}
+
 		if (state.userInput === "") {
 			setSuggestions([])
+
 			return
 		}
+
 		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 			.then(response => response.json())
 			.then(json => {
@@ -61,34 +79,30 @@ function SearchBar({ state, fetchState, onChange }) {
 						lon: city.longtitude
 					}
 				}))
-			}
-			)
-			.catch(error => console.log(error))
+			}).catch(error => console.log(error))
 	}, [state.userInput])
 
-	useEffect(() => { updateSuggestions() }, [state.userInput, updateSuggestions]) // This effect calls the function thatupdates suggestions whenever userInput changes
+	useEffect(() => {
+		updateSuggestions(1)
+	}, [state.userInput, updateSuggestions]) // This effect calls the function thatupdates suggestions whenever userInput changes
 
 	return (
 		<div
 			className="search-container"
-			style={{
-				display: "block",
-				width: inputWidth
-			}}>
+			style={commonWidthStyle}>
 			<div className="search">
 				<input
 					type="text"
 					placeholder="Search..."
 					onChange={event => {
-						updateSuggestions()
-						onChange(event)
+						setState({
+							...state,
+							userInput: event.target ? event.target.value : ""
+						})
 					}}
 					value={state.userInput}
 					ref={inputRef}
-					style={{
-						display: "block",
-						width: inputWidth
-					}}
+					style={commonWidthStyle}
 				>
 				</input>
 			</div>
@@ -101,7 +115,7 @@ function SearchBar({ state, fetchState, onChange }) {
 						return (
 							<li className="suggestion"
 								onClick={() => {
-									console.log("Fetching from the inside of suggestions: ", city.country, city.name)
+									console.log("Fetching from the inside of onClick on suggestions: ", city.country, city.name)
 									fetchState(city.name, city.country)
 									setDropdownOpened(false)
 								}}
