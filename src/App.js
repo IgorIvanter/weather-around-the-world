@@ -52,14 +52,9 @@ function App() {
 
 	// useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
 
-	const handleSubmit = event => {
-		event.preventDefault();
-		fetchState(state.userInput)
-	}
-
 	return (
 		<div className="App">
-			<Header onSubmit={handleSubmit} state={state} fetchState={fetchState} setState={setState} />
+			<Header state={state} fetchState={fetchState} setState={setState} />
 
 			<Main state={state} />
 
