@@ -1,12 +1,9 @@
 import ForecastTable from "./ForecastTable"
 import WeatherIcon from "./WeatherIcon"
+import capitalizeFirstLetter from "../capitalizeFirstLetter";
+import { formatLocationName } from "../capitalizeFirstLetter";
 import CONSTANTS from "../constants"
-// import WeekForecastTable from "./WeekForecastTable";
 
-
-function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const DateBox = () => {
 	const date = new Date()
@@ -25,7 +22,7 @@ const Main = ({state}) => {
 		return (
 			<main>
 				<div className="location-box text-center text">
-					{state.location}, {state.fullCountry !== undefined && state.fullCountry}
+					{formatLocationName(`${state.location}, ${state.fullCountry !== undefined && state.fullCountry}`)}
 					<DateBox />
 				</div>
 				<div className="temp-box">

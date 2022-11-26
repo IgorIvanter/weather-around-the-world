@@ -47,7 +47,8 @@ function App() {
 
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
 		const initialLocation = "Moscow"
-		fetchState(initialLocation)
+		const initialCountry = "Russia"
+		fetchState(initialLocation, initialCountry)
 	}, [])
 
 	// useEffect(() => console.log("Re-rendered. Current state: ", state))		// Effect for logging current state (for debugging):
