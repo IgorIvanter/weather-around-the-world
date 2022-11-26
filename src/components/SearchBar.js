@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import useHover from "../hooks/useHover.js"
 import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
+import capitalizeFirstLetter from "../capitalizeFirstLetter.js"
+import { formatLocationName } from "../capitalizeFirstLetter.js"
 
 
 const minPopulation = 500000
@@ -24,7 +26,7 @@ const SearchBar = props => {
 		}
 		if (inputFocused) {
 			setDropdownOpened(true)
-		} 
+		}
 		if (dropdownHovered) {
 			setDropdownOpened(true)
 		}
@@ -55,7 +57,10 @@ const SearchBar = props => {
 		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 			.then(response => response.json())
 			.then(json => {
-				console.log(json)
+				console.log("logging response: ", json)
+				if (json.data === undefined) {
+					return
+				}
 				setSuggestions(json.data.map(city => {
 					return {
 						name: city.name.toLowerCase(),	// also need country
@@ -68,8 +73,6 @@ const SearchBar = props => {
 			)
 			.catch(error => console.log(error))
 	}
-
-	// useEffect()
 
 	return (
 		<div
@@ -121,8 +124,11 @@ const SearchBar = props => {
 									props.fetchState(city.name, city.country)
 									setDropdownOpened(false)
 								}}
+								style={{
+									// width: inputRef.current.width
+								}}
 								key={city.name}>
-									{city.name}
+									{formatLocationName(`${city.name}, ${city.country}`)}
 							</li>)
 					})}
 				</ul>
