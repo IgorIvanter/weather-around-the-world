@@ -1,34 +1,31 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import useHover from "../hooks/useHover.js"
-// import useFocus from "../hooks/useFocus.js"
+import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
 import { formatLocationName } from "../capitalizeFirstLetter.js"
-import  useFocus from "../hooks/useFocus.js"
 
 
 const minPopulation = 500000
+const inputWidth = "20rem"
 
-function SearchBar({ state, fetchState, onSubmit, onChange }) {
 
-	const inputRef = useRef()
+function SearchBar({ state, fetchState, onChange }) {
 
-	const inputFocused = useFocus(inputRef)
+	const inputRef = useRef()	// Reference to the input element
 
-	const [dropdownRef, dropdownHovered] = useHover()
+	const inputFocused = useFocus(inputRef)		// inputFocused is set to track whether inputRef.current (the input) element is focused or not
 
-	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)
+	const [dropdownRef, dropdownHovered] = useHover()	// dropdownHovered is set to track whether dropdownRef.current (dropdown menu) is hovered over or not
 
-	const [suggestions, setSuggestions] = useState([])
+	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)	// defines whether dropdown menu is opened or not
 
-	useEffect(() => {
-		if (!inputFocused && !dropdownHovered) {
+	const [suggestions, setSuggestions] = useState([])	// list of suggestions
+
+	useEffect(() => {	// This effect opens/closes the dropdown suggestions list based on inputFocused and dropdownHovered
+		if (inputFocused || dropdownHovered) {
+			setDropdownOpened(true)
+		} else {
 			setDropdownOpened(false)
-		}
-		if (inputFocused) {
-			setDropdownOpened(true)
-		}
-		if (dropdownHovered) {
-			setDropdownOpened(true)
 		}
 		if (suggestions.length === 0) {
 			setDropdownOpened(false)
@@ -44,11 +41,7 @@ function SearchBar({ state, fetchState, onSubmit, onChange }) {
 		zIndex: 40
 	}
 
-	useEffect(() => {
-		updateSuggestions()
-	}, [state.userInput])
-
-	const updateSuggestions = () => {
+	const updateSuggestions = useCallback(() => {	// updates suggestions based on current input
 		if (state.userInput === "") {
 			setSuggestions([])
 			return
@@ -71,14 +64,16 @@ function SearchBar({ state, fetchState, onSubmit, onChange }) {
 			}
 			)
 			.catch(error => console.log(error))
-	}
+	}, [state.userInput])
+
+	useEffect(() => { updateSuggestions() }, [state.userInput, updateSuggestions]) // This effect calls the function thatupdates suggestions whenever userInput changes
 
 	return (
 		<div
 			className="search-container"
 			style={{
 				display: "block",
-				width: "20rem"
+				width: inputWidth
 			}}>
 			<div className="search">
 				<input
@@ -87,13 +82,12 @@ function SearchBar({ state, fetchState, onSubmit, onChange }) {
 					onChange={event => {
 						updateSuggestions()
 						onChange(event)
-					} }
-					onSubmit={onSubmit}
+					}}
 					value={state.userInput}
 					ref={inputRef}
 					style={{
 						display: "block",
-						width: "20rem"
+						width: inputWidth
 					}}
 				>
 				</input>
@@ -110,9 +104,10 @@ function SearchBar({ state, fetchState, onSubmit, onChange }) {
 									console.log("Fetching from the inside of suggestions: ", city.country, city.name)
 									fetchState(city.name, city.country)
 									setDropdownOpened(false)
-								} }
-								style={{ borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey" }}
-								// This style object creates borderBottom for every element except the last one. Serves as a divider.
+								}}
+								style={{	// This style object creates borderBottom for every element except the last one. Serves as a divider.
+									borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey"
+								}}
 								key={city.name}>
 								{formatLocationName(`${city.name}, ${city.country}`)}
 							</li>)
