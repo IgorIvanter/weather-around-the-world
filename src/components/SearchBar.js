@@ -1,23 +1,18 @@
-import { useState, useRef, useEffect } from "react"
+import { useEffect, useState } from "react"
 import useHover from "../hooks/useHover.js"
+import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
+
+
+const minPopulation = 500000
 
 
 const SearchBar = props => {
 	const state = props.state
 
-	const inputRef = useRef()
+	const [inputRef, inputFocused, toggleInputFocus] = useFocus()
 
-	const [hasFocus, setFocus] = useState(false)	// tracks if the input field is focused
-	const toggleFocus = () => { setFocus(!hasFocus) }	// toggles hasFocus
-
-	useEffect(() => {	// initialize hasFocus properly
-		if (document.hasFocus() && inputRef.current.contains(document.activeElement)) {
-			setFocus(true);
-		}
-	}, [])
-
-	const [dropdownRef, isDropdownHovered] = useHover()
+	const [dropdownRef, dropdownHovered] = useHover()
 
 	const dropdownStyle = {
 		backgroundColor: "whitesmoke",
@@ -30,8 +25,16 @@ const SearchBar = props => {
 
 	const [suggestions, setSuggestions] = useState([])
 
+	useEffect(() => {
+		updateSuggestions()
+	}, [state.userInput])
+
 	const updateSuggestions = () => {
-		const minPopulation = 500000
+		if (state.userInput === "") {
+			setSuggestions([])
+			return
+		}
+
 		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 			.then(response => response.json())
 			.then(json => {
@@ -47,8 +50,6 @@ const SearchBar = props => {
 			)
 			.catch(error => console.log(error))
 	}
-
-	// useEffect(() => setSuggestions([{name: "Moscow"}, {name: "Warsaw"}]), [state.userInput])
 
 	return (
 		<div
@@ -73,16 +74,19 @@ const SearchBar = props => {
 						}}
 						onSubmit={props.onSubmit}
 						value={props.state.userInput}
-						onFocus={toggleFocus}
-						onBlur={toggleFocus}
-						ref={inputRef}>
+						onFocus={toggleInputFocus}
+						onBlur={toggleInputFocus}
+						ref={inputRef}
+						style={{
+							backgroundColor: inputFocused ? "red" : "yellow"
+						}}>
 					</input>
 					<button onClick={props.onSubmit}>Search!</button>
 				</form>
 			</div>
 			<div
-				className={`dropdown ${hasFocus && "opened"}`}
-				style={{...dropdownStyle, backgroundColor: isDropdownHovered ? "green" : "blue"}}
+				className={`dropdown ${(inputFocused || dropdownHovered) && "opened"}`}
+				style={{...dropdownStyle, backgroundColor: dropdownHovered ? "green" : "blue"}}
 				ref={dropdownRef}>
 				<ul>
 					{suggestions.map(city => {
