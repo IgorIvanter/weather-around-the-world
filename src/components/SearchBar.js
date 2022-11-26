@@ -14,6 +14,25 @@ const SearchBar = props => {
 
 	const [dropdownRef, dropdownHovered] = useHover()
 
+	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)
+
+	const [suggestions, setSuggestions] = useState([])
+
+	useEffect(() => {
+		if (!inputFocused && !dropdownHovered) {
+			setDropdownOpened(false)
+		}
+		if (inputFocused) {
+			setDropdownOpened(true)
+		} 
+		if (dropdownHovered) {
+			setDropdownOpened(true)
+		}
+		if (suggestions.length === 0) {
+			setDropdownOpened(false)
+		}
+	}, [inputFocused, dropdownHovered, state, suggestions])
+
 	const dropdownStyle = {
 		backgroundColor: "whitesmoke",
 		top: "0",
@@ -22,8 +41,6 @@ const SearchBar = props => {
 		fontSize: "1.5rem",
 		textDecoration: "underline"
 	}
-
-	const [suggestions, setSuggestions] = useState([])
 
 	useEffect(() => {
 		updateSuggestions()
@@ -51,6 +68,8 @@ const SearchBar = props => {
 			.catch(error => console.log(error))
 	}
 
+	// useEffect()
+
 	return (
 		<div
 			className="search-container"
@@ -77,27 +96,31 @@ const SearchBar = props => {
 						onFocus={toggleInputFocus}
 						onBlur={toggleInputFocus}
 						ref={inputRef}
-						style={{
-							backgroundColor: inputFocused ? "red" : "yellow"
-						}}>
+						// style={{
+						// 	backgroundColor: inputFocused ? "red" : "yellow"
+						// }}
+						>
 					</input>
 					<button onClick={props.onSubmit}>Search!</button>
 				</form>
 			</div>
 			<div
-				className={`dropdown ${(inputFocused || dropdownHovered) && "opened"}`}
-				style={{...dropdownStyle, backgroundColor: dropdownHovered ? "green" : "blue"}}
+				className={`dropdown ${dropdownOpened && "opened"}`}
+				style={{
+					...dropdownStyle,
+					// backgroundColor: dropdownHovered ? "green" : "blue"
+				}}
 				ref={dropdownRef}>
 				<ul>
 					{suggestions.map(city => {
 						return (
-							<li key={city.name}>
-								<button onClick={() => {
-									console.log(`Fetching data about location: ${city.name}`)
+							<li className="suggestion"
+								onClick={() => {
 									props.fetchState(city.name)
-								}} >
+									setDropdownOpened(false)
+								}}
+								key={city.name}>
 									{city.name}
-								</button>
 							</li>)
 					})}
 				</ul>

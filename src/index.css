@@ -192,6 +192,10 @@ main td img {
 	opacity: 0.2;
 }
 
+.suggestion {
+	cursor: pointer;
+}
+
 @media (max-width: 990px) {
 	.page-title {
 			display: none;
