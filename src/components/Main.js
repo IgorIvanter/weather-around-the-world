@@ -25,7 +25,7 @@ const Main = ({state}) => {
 		return (
 			<main>
 				<div className="location-box text-center text">
-					{state.location}
+					{state.location}, {state.fullCountry !== undefined && state.fullCountry}
 					<DateBox />
 				</div>
 				<div className="temp-box">

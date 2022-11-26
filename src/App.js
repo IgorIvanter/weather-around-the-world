@@ -13,7 +13,7 @@ function App() {
 		userInput: ""
 	})
 
-	const fetchState = (location) => {		// Function to fetch data and update state
+	const fetchState = (location, fullCountry) => {		// Function to fetch data and update state
 		fetch(`${CONSTANTS.API.requestStartWeather}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
         .then(weatherResponse => weatherResponse.json())
 		.then(weatherJSON => {
@@ -25,7 +25,8 @@ function App() {
 					temp: weatherJSON.main.temp,
 					feelsLike: weatherJSON.main.feels_like,
 					description: weatherJSON.weather[0].description,
-					location: `${weatherJSON.name}, ${weatherJSON.sys.country}`,
+					location: weatherJSON.name,
+					fullCountry: fullCountry,
 					wind: weatherJSON.wind,
 					icon: weatherJSON.weather[0].icon,
 					userInput: "",

@@ -59,6 +59,7 @@ const SearchBar = props => {
 				setSuggestions(json.data.map(city => {
 					return {
 						name: city.name.toLowerCase(),	// also need country
+						country: city.country,
 						lat: city.latitude,
 						lon: city.longtitude
 					}
@@ -116,7 +117,8 @@ const SearchBar = props => {
 						return (
 							<li className="suggestion"
 								onClick={() => {
-									props.fetchState(city.name)
+									console.log("Fetching from the inside of suggestions: ", city.country, city.name)
+									props.fetchState(city.name, city.country)
 									setDropdownOpened(false)
 								}}
 								key={city.name}>
