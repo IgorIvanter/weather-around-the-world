@@ -71,6 +71,10 @@ nav {
 	max-height: 7rem;
 }
 
+.search-container {
+	z-index: 98;
+}
+
 .search {
 	display: flex;
 	justify-content: center;

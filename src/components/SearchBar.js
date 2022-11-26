@@ -41,7 +41,8 @@ const SearchBar = props => {
 		padding: "1rem",
 		borderRadius: "1rem",
 		fontSize: "1.5rem",
-		textDecoration: "underline"
+		// textDecoration: "underline",
+		zIndex: 40
 	}
 
 	useEffect(() => {
@@ -78,45 +79,37 @@ const SearchBar = props => {
 		<div
 			className="search-container"
 			style={{
-				display: "flex",
-				flexDirection: "column"
+				display: "block",
+				width: "20rem"
 			}}>
 			<div className="search">
-				<form
+				<input
+					type="text"
+					placeholder="Search..."
+					onChange={event => {
+						updateSuggestions()
+						props.onChange(event)
+					}}
 					onSubmit={props.onSubmit}
+					value={props.state.userInput}
+					onFocus={toggleInputFocus}
+					onBlur={toggleInputFocus}
+					ref={inputRef}
 					style={{
-						display: "flex",
-						border: "none"
-					}}>
-					<input
-						type="text"
-						placeholder="Search..."
-						onChange={event => {
-							updateSuggestions()
-							props.onChange(event)
-						}}
-						onSubmit={props.onSubmit}
-						value={props.state.userInput}
-						onFocus={toggleInputFocus}
-						onBlur={toggleInputFocus}
-						ref={inputRef}
-						// style={{
-						// 	backgroundColor: inputFocused ? "red" : "yellow"
-						// }}
-						>
-					</input>
-					<button onClick={props.onSubmit}>Search!</button>
-				</form>
+						display: "block",
+						width: "20rem"
+					}}
+					>
+				</input>
 			</div>
 			<div
 				className={`dropdown ${dropdownOpened && "opened"}`}
 				style={{
 					...dropdownStyle,
-					// backgroundColor: dropdownHovered ? "green" : "blue"
 				}}
 				ref={dropdownRef}>
 				<ul>
-					{suggestions.map(city => {
+					{suggestions.map((city, index) => {
 						return (
 							<li className="suggestion"
 								onClick={() => {
@@ -125,6 +118,7 @@ const SearchBar = props => {
 									setDropdownOpened(false)
 								}}
 								style={{
+									borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey"
 									// width: inputRef.current.width
 								}}
 								key={city.name}>
