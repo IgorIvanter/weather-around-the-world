@@ -1,19 +1,20 @@
-import { useState, useRef, useEffect } from "react"
+import { useEffect, useState } from "react";
 
+function useFocus(ref) {
+    const [isFocused, setFocus] = useState(false)
 
-function useFocus() {
-    const [hasFocus, setFocus] = useState(false)	    // tracks if the input field is focused
-    const toggleFocus = () => { setFocus(!hasFocus) }	// toggles hasFocus
-
-    const elementRef = useRef(null)
-
-    useEffect(() => {	// initialize hasFocus properly
-        if (document.hasFocus() && elementRef.current.contains(document.activeElement)) {
-            setFocus(true);
+    useEffect(() => {
+        const element = ref.current
+        setFocus(element === document.activeElement)
+        element.addEventListener('blur', () => setFocus(false))
+        element.addEventListener('focus', () => setFocus(true))
+        return () => {
+            element.removeEventListener('blur', () => setFocus(false))
+            element.removeEventListener('focus', () => setFocus(true))
         }
-    }, [])
+    }, [ref])
 
-    return [elementRef, hasFocus, toggleFocus]
+    return isFocused
 }
 
 export default useFocus

@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import useHover from "../hooks/useHover.js"
-import useFocus from "../hooks/useFocus.js"
+// import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
-import capitalizeFirstLetter from "../capitalizeFirstLetter.js"
 import { formatLocationName } from "../capitalizeFirstLetter.js"
+import  useFocus from "../hooks/useFocus.js"
 
 
 const minPopulation = 500000
 
+function SearchBar({ state, fetchState, onSubmit, onChange }) {
 
-const SearchBar = props => {
-	const state = props.state
+	const inputRef = useRef()
 
-	const [inputRef, inputFocused, toggleInputFocus] = useFocus()
+	const inputFocused = useFocus(inputRef)
 
 	const [dropdownRef, dropdownHovered] = useHover()
 
@@ -41,7 +41,6 @@ const SearchBar = props => {
 		padding: "1rem",
 		borderRadius: "1rem",
 		fontSize: "1.5rem",
-		// textDecoration: "underline",
 		zIndex: 40
 	}
 
@@ -54,7 +53,6 @@ const SearchBar = props => {
 			setSuggestions([])
 			return
 		}
-
 		return fetch(`${geoAPI.requestStart}minPopulation=${minPopulation}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 			.then(response => response.json())
 			.then(json => {
@@ -64,7 +62,7 @@ const SearchBar = props => {
 				}
 				setSuggestions(json.data.map(city => {
 					return {
-						name: city.name.toLowerCase(),	// also need country
+						name: city.name.toLowerCase(),
 						country: city.country,
 						lat: city.latitude,
 						lon: city.longtitude
@@ -88,25 +86,21 @@ const SearchBar = props => {
 					placeholder="Search..."
 					onChange={event => {
 						updateSuggestions()
-						props.onChange(event)
-					}}
-					onSubmit={props.onSubmit}
-					value={props.state.userInput}
-					onFocus={toggleInputFocus}
-					onBlur={toggleInputFocus}
+						onChange(event)
+					} }
+					onSubmit={onSubmit}
+					value={state.userInput}
 					ref={inputRef}
 					style={{
 						display: "block",
 						width: "20rem"
 					}}
-					>
+				>
 				</input>
 			</div>
 			<div
 				className={`dropdown ${dropdownOpened && "opened"}`}
-				style={{
-					...dropdownStyle,
-				}}
+				style={dropdownStyle}
 				ref={dropdownRef}>
 				<ul>
 					{suggestions.map((city, index) => {
@@ -114,15 +108,13 @@ const SearchBar = props => {
 							<li className="suggestion"
 								onClick={() => {
 									console.log("Fetching from the inside of suggestions: ", city.country, city.name)
-									props.fetchState(city.name, city.country)
+									fetchState(city.name, city.country)
 									setDropdownOpened(false)
-								}}
-								style={{
-									borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey"
-									// width: inputRef.current.width
-								}}
+								} }
+								style={{ borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey" }}
+								// This style object creates borderBottom for every element except the last one. Serves as a divider.
 								key={city.name}>
-									{formatLocationName(`${city.name}, ${city.country}`)}
+								{formatLocationName(`${city.name}, ${city.country}`)}
 							</li>)
 					})}
 				</ul>
