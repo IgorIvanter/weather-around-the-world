@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import useBorder from "./hooks/useBorder";
 import Header from "./components/Header";
 import Main from "./components/Main"
 import Footer from "./components/Footer";
@@ -7,8 +6,6 @@ import CONSTANTS from "./constants";
 
 
 function App() {
-	const toggleBorders = useBorder()	// This hook returns a function that shows/hides all borders of all elements in the doc
-
 	const [state, setState] = useState({	// All weather forecasts and user input is stored in this state
 		userInput: ""
 	})
@@ -62,17 +59,6 @@ function App() {
 			<Main state={state} />
 
 			<Footer state={state} />
-
-			<button
-				onClick={toggleBorders}
-				style={{
-					position: "absolute",
-					bottom: "0",
-					left: "0",
-					display: "none" 
-				}}>
-				Enable borders
-			</button>
 		</div>
 	);
 }
