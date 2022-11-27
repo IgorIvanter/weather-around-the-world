@@ -71,10 +71,6 @@ nav {
 	max-height: 7rem;
 }
 
-.search-container {
-	z-index: 98;
-}
-
 .search {
 	display: flex;
 	justify-content: center;
@@ -95,27 +91,6 @@ nav {
 
 .search input:focus {
 	outline: none;
-}
-
-.search button {
-	border-radius: 1rem;
-	padding: 0.5rem;
-	font-size: 1rem;
-	margin-left: -1rem;
-	transition: background-color 0.3s, color 0.3s, box-shadow 0s;
-	z-index: 99;
-	background-color: var(--color6);
-	color: white;
-}
-
-.search button:hover {
-	color: var(--color6);
-	background-color: white;
-	border: 1px solid var(--color6);
-}
-
-.search button:active {
-	box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown {

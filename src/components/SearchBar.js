@@ -110,8 +110,11 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 
 	return (
 		<div
-			className="search-container"
-			style={commonWidthStyle}>
+			className="SearchBar"
+			style={{
+				...commonWidthStyle,
+				zIndex: 99	
+				}}>
 			<div className="search">
 				<input
 					type="text"
