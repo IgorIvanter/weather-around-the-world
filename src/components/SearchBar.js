@@ -4,10 +4,20 @@ import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
 import { formatLocationName } from "../capitalizeFirstLetter.js"
 import CONSTANTS from "../constants.js"
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const MIN_POPULATION = 500000	// Minimal population for a city to be displayed in the suggestions list
 const INPUT_WIDTH = "20rem"		// The fixed width of the input field
+
+
+function BasicExample() {
+	return (
+	  <Spinner animation="border" role="status">
+		<span className="visually-hidden">Loading...</span>
+	  </Spinner>
+	);
+  }
 
 
 function SearchBar({ state, fetchStateByCoords, setState }) {
