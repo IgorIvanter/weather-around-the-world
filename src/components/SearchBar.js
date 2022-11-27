@@ -4,20 +4,11 @@ import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
 import { formatLocationName } from "../capitalizeFirstLetter.js"
 import CONSTANTS from "../constants.js"
-import Spinner from 'react-bootstrap/Spinner';
+import loadingGif from '../loading.gif'
 
 
 const MIN_POPULATION = 500000	// Minimal population for a city to be displayed in the suggestions list
 const INPUT_WIDTH = "20rem"		// The fixed width of the input field
-
-
-function BasicExample() {
-	return (
-	  <Spinner animation="border" role="status">
-		<span className="visually-hidden">Loading...</span>
-	  </Spinner>
-	);
-  }
 
 
 function SearchBar({ state, fetchStateByCoords, setState }) {
@@ -56,7 +47,7 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 			return null
 		}
 
-		
+
 
 		let id = lastRequestRef + 5
 
@@ -146,17 +137,39 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 							</li>)
 					})}
 				</ul>
-			</div> : 
-			<div
-				className="dropdown opened"
-				style={dropdownStyle}>
-				<ul>
-					<li>
-						<BasicExample />
-						Loading...
-					</li>
-				</ul>
-			</div>
+			</div> :
+				<div
+					className="dropdown opened"
+					style={{
+						...dropdownStyle,
+					}}>
+					<ul>
+						<li style={{ position: "relative" }}>
+							<img
+								alt=""
+								src={loadingGif}
+								style={{
+									position: "absolute",
+									height: "3rem",
+									marginTop: "auto",
+									marginBottom: "auto",
+									float: "bottom",
+									top: "-0.5rem"
+								}} />
+							<p
+								style={{
+									display: "inline-block",
+									marginTop: "auto",
+									marginBottom: "auto",
+									position: "relative",
+									left: "3rem",
+
+								}}>
+								Loading...
+							</p>
+						</li>
+					</ul>
+				</div>
 			}
 		</div>)
 }
