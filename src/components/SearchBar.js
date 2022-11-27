@@ -46,6 +46,8 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 
 	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)	// defines whether dropdown menu is opened or not
 
+	const [loading, setLoading] = useState(false)
+
 	const lastTimeoutIdRef = useRef(null)	// A ref to the last timeout ID (to clear it later if needed)
 
 	const updateSuggestions = useCallback((lastRequestRef) => {		// updates suggestions based on current input:
@@ -54,11 +56,15 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 			return null
 		}
 
+		
+
 		let id = lastRequestRef + 5
 
 		while (id--) {
 			window.clearTimeout(id); // Clearing all previous timeouts
 		}
+
+		setLoading(true)
 
 		return setTimeout(() => {
 			console.log(`Fetching for prefix '${state.userInput}'...`)
@@ -69,6 +75,7 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 					if (json.data === undefined) {
 						return
 					}
+					setLoading(false)
 					setSuggestions(json.data.map(city => {
 						return {
 							name: city.name.toLowerCase(),
@@ -118,7 +125,7 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 				>
 				</input>
 			</div>
-			<div
+			{!loading ? <div
 				className={`dropdown ${dropdownOpened && "opened"}`}
 				style={dropdownStyle}
 				ref={dropdownRef}>
@@ -139,7 +146,18 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 							</li>)
 					})}
 				</ul>
+			</div> : 
+			<div
+				className="dropdown opened"
+				style={dropdownStyle}>
+				<ul>
+					<li>
+						<BasicExample />
+						Loading...
+					</li>
+				</ul>
 			</div>
+			}
 		</div>)
 }
 
