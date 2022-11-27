@@ -13,36 +13,68 @@ function App() {
 		userInput: ""
 	})
 
-	const fetchState = (location, fullCountry) => {		// Function to fetch data and update state
+	function fetchState(location, fullCountry) {
 		fetch(`${CONSTANTS.API.requestStartWeather}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
-        .then(weatherResponse => weatherResponse.json())
-		.then(weatherJSON => {
-			fetch(`${CONSTANTS.API.requestStartForecast}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
-			.then(forecastResponse => forecastResponse.json())
-			.then(forecastJSON => {
-				console.log("Initial forecast response: ", forecastJSON)
-				setState({
-					temp: weatherJSON.main.temp,
-					feelsLike: weatherJSON.main.feels_like,
-					description: weatherJSON.weather[0].description,
-					location: weatherJSON.name,
-					fullCountry: fullCountry,
-					wind: weatherJSON.wind,
-					icon: weatherJSON.weather[0].icon,
-					userInput: "",
-					forecastList: forecastJSON.list.map(forecastTimeStamp => {
-						return {
-							dt: forecastTimeStamp.dt,
-							temp: forecastTimeStamp.main.temp,
-							feelsLike: forecastTimeStamp.main.feels_like,
-							wind: forecastTimeStamp.wind,
-							description: forecastTimeStamp.weather[0].description,
-							icon: forecastTimeStamp.weather[0].icon
-						}
-					})
-				})
-			}).catch(error => console.log(error))
-		}).catch(error => console.log(error))
+			.then(weatherResponse => weatherResponse.json())
+			.then(weatherJSON => {
+				fetch(`${CONSTANTS.API.requestStartForecast}q=${location}&units=metric&APPID=${CONSTANTS.API.key}`)
+					.then(forecastResponse => forecastResponse.json())
+					.then(forecastJSON => {
+						console.log("Initial forecast response: ", forecastJSON);
+						setState({
+							temp: weatherJSON.main.temp,
+							feelsLike: weatherJSON.main.feels_like,
+							description: weatherJSON.weather[0].description,
+							location: weatherJSON.name,
+							fullCountry: fullCountry,
+							wind: weatherJSON.wind,
+							icon: weatherJSON.weather[0].icon,
+							userInput: "",
+							forecastList: forecastJSON.list.map(forecastTimeStamp => {
+								return {
+									dt: forecastTimeStamp.dt,
+									temp: forecastTimeStamp.main.temp,
+									feelsLike: forecastTimeStamp.main.feels_like,
+									wind: forecastTimeStamp.wind,
+									description: forecastTimeStamp.weather[0].description,
+									icon: forecastTimeStamp.weather[0].icon
+								};
+							})
+						});
+					}).catch(error => console.log(error));
+			}).catch(error => console.log(error));
+	}
+
+	function fetchStateByCoords(city) {
+		fetch(`${CONSTANTS.API.requestStartWeather}lat=${city.lat}&lon=${city.lon}&units=metric&APPID=${CONSTANTS.API.key}`)
+			.then(weatherResponse => weatherResponse.json())
+			.then(weatherJSON => {
+				fetch(`${CONSTANTS.API.requestStartForecast}lat=${city.lat}&lon=${city.lon}&units=metric&APPID=${CONSTANTS.API.key}`)
+					.then(forecastResponse => forecastResponse.json())
+					.then(forecastJSON => {
+						console.log("Initial forecast response: ", forecastJSON);
+						setState({
+							temp: weatherJSON.main.temp,
+							feelsLike: weatherJSON.main.feels_like,
+							description: weatherJSON.weather[0].description,
+							location: city.name,
+							fullCountry: city.country,
+							wind: weatherJSON.wind,
+							icon: weatherJSON.weather[0].icon,
+							userInput: "",
+							forecastList: forecastJSON.list.map(forecastTimeStamp => {
+								return {
+									dt: forecastTimeStamp.dt,
+									temp: forecastTimeStamp.main.temp,
+									feelsLike: forecastTimeStamp.main.feels_like,
+									wind: forecastTimeStamp.wind,
+									description: forecastTimeStamp.weather[0].description,
+									icon: forecastTimeStamp.weather[0].icon
+								};
+							})
+						});
+					}).catch(error => console.log(error));
+			}).catch(error => console.log(error));
 	}
 
 	useEffect(() => {	// Sets up the initial data that's displayed on the screen directly after the page is loaded.
@@ -55,7 +87,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Header state={state} fetchState={fetchState} setState={setState} />
+			<Header state={state} fetchState={fetchState} fetchStateByCoords={fetchStateByCoords} setState={setState} />
 
 			<Main state={state} />
 

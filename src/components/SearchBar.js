@@ -10,7 +10,7 @@ const MIN_POPULATION = 500000	// Minimal population for a city to be displayed i
 const INPUT_WIDTH = "20rem"		// The fixed width of the input field
 
 
-function SearchBar({ state, fetchState, setState }) {
+function SearchBar({ state, fetchState, fetchStateByCoords, setState }) {
 
 	const dropdownStyle = {		// Inline styling for the dropdown menu
 		backgroundColor: "whitesmoke",
@@ -76,8 +76,8 @@ function SearchBar({ state, fetchState, setState }) {
 						return {
 							name: city.name.toLowerCase(),
 							country: city.country.toLowerCase(),
-							lat: city.latitude,
-							lon: city.longtitude
+							lat: city.latitude.toFixed(2),
+							lon: city.longitude.toFixed(2)
 						}
 					}))
 				}).catch(error => console.log(error))
@@ -136,7 +136,7 @@ function SearchBar({ state, fetchState, setState }) {
 							<li className="suggestion"
 								onClick={() => {
 									console.log("Fetching from the inside of onClick on suggestions: ", city.country, city.name)
-									fetchState(city.name, city.country)
+									fetchStateByCoords(city)
 									setDropdownOpened(false)
 								}}
 								style={{
