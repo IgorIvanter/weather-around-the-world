@@ -7,6 +7,7 @@ const CONSTANTS = {
 	MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	FORECAST_TIMESTAMPS_NUMBER: 5,    // defines how many columns there wil be in the ForecastTable
 	MS_IN_A_SECOND: 1000,
+	GEOCODING_REQUEST_TIMEOUT_MS: 1000,
 	WEATHER_ICON_URL_START: "https://openweathermap.org/img/wn/",
 	MOBILE_MAX_WIDTH: 990,
 	LINKEDIN_PROFILE_URL: "https://www.linkedin.com/in/igor-ivanter-abab26256/",

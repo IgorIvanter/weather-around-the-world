@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import useHover from "../hooks/useHover.js"
 import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
+import CONSTANTS from "../constants.js"
 import { formatLocationName } from "../capitalizeFirstLetter.js"
 
 
@@ -35,40 +36,52 @@ function SearchBar({ state, fetchState, setState }) {
 
 	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)	// defines whether dropdown menu is opened or not
 
-	const updateSuggestions = useCallback((code) => {	// updates suggestions based on current input
-		switch (code) {
-			case 0:
-				console.log(`Fetching from inside the input onChange function for prefix ${state.userInput}`)
-				break
-			case 1:
-				console.log(`Fetching from inside the useEffect for prefix ${state.userInput}`)
-				break
-			default:
-				throw new Error("Something went wrong nigga...")
+	const lastTimeoutIdRef = useRef(null)
+
+	// updates suggestions based on current input:
+
+	const updateSuggestions = useCallback((lastRequestRef) => {
+		if(!lastRequestRef) {
+			console.log(`Last request ref = ${lastRequestRef}`)
+		} else {
+			console.log(`Trying to clear timeout for id = ${lastRequestRef}`)
 		}
 
 		if (state.userInput === "") {
 			setSuggestions([])
-
-			return
+			return null
 		}
 
-		return fetch(`${geoAPI.requestStart}minPopulation=${MIN_POPULATION}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
-			.then(response => response.json())
-			.then(json => {
-				console.log("logging response: ", json)
-				if (json.data === undefined) {
-					return
-				}
-				setSuggestions(json.data.map(city => {
-					return {
-						name: city.name.toLowerCase(),
-						country: city.country.toLowerCase(),
-						lat: city.latitude,
-						lon: city.longtitude
+		let id = lastRequestRef + 5
+
+		while (id--) {
+			window.clearTimeout(id); // will do nothing if no timeout with id is present
+		}
+
+
+		// if (lastRequestRef) {
+		// 	clearTimeout(lastRequestRef)
+		// }
+
+		return setTimeout(() => {
+			console.log(`Fetching for prefix '${state.userInput}'...`)
+			fetch(`${geoAPI.requestStart}minPopulation=${MIN_POPULATION}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
+				.then(response => response.json())
+				.then(json => {
+					console.log("logging response: ", json)
+					if (json.data === undefined) {
+						return
 					}
-				}))
-			}).catch(error => console.log(error))
+					setSuggestions(json.data.map(city => {
+						return {
+							name: city.name.toLowerCase(),
+							country: city.country.toLowerCase(),
+							lat: city.latitude,
+							lon: city.longtitude
+						}
+					}))
+				}).catch(error => console.log(error))
+		}, CONSTANTS.GEOCODING_REQUEST_TIMEOUT_MS)
 	}, [state.userInput])
 
 	function handleInputChange(event) {		// handles new search terms
@@ -90,8 +103,13 @@ function SearchBar({ state, fetchState, setState }) {
 	}, [inputFocused, dropdownHovered, state, suggestions])
 
 	useEffect(() => {	// This effect calls the function that updates suggestions whenever userInput changes
-		updateSuggestions(1)
+		console.log("Calling updateSuggestions from useEffect, prefix ", state.userInput)
+		lastTimeoutIdRef.current = updateSuggestions(lastTimeoutIdRef.current)
 	}, [state.userInput, updateSuggestions])
+
+	useEffect(() => {
+		console.log(`Last timeout's ID has changed to ${lastTimeoutIdRef.current}`)
+	})
 
 	return (
 		<div
@@ -123,7 +141,7 @@ function SearchBar({ state, fetchState, setState }) {
 								}}
 								style={{
 									borderBottom: index === suggestions.length - 1 ? "none" : "2px solid grey"
-								}}	
+								}}
 								key={city.name}>
 								{formatLocationName(`${city.name}, ${city.country}`)}
 							</li>)
