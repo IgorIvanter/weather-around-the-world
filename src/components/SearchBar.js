@@ -2,15 +2,15 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import useHover from "../hooks/useHover.js"
 import useFocus from "../hooks/useFocus.js"
 import { geoAPI } from '../constants.js'
-import CONSTANTS from "../constants.js"
 import { formatLocationName } from "../capitalizeFirstLetter.js"
+import CONSTANTS from "../constants.js"
 
 
 const MIN_POPULATION = 500000	// Minimal population for a city to be displayed in the suggestions list
 const INPUT_WIDTH = "20rem"		// The fixed width of the input field
 
 
-function SearchBar({ state, fetchState, fetchStateByCoords, setState }) {
+function SearchBar({ state, fetchStateByCoords, setState }) {
 
 	const dropdownStyle = {		// Inline styling for the dropdown menu
 		backgroundColor: "whitesmoke",
@@ -36,17 +36,9 @@ function SearchBar({ state, fetchState, fetchStateByCoords, setState }) {
 
 	const [dropdownOpened, setDropdownOpened] = useState(inputFocused)	// defines whether dropdown menu is opened or not
 
-	const lastTimeoutIdRef = useRef(null)
+	const lastTimeoutIdRef = useRef(null)	// A ref to the last timeout ID (to clear it later if needed)
 
-	// updates suggestions based on current input:
-
-	const updateSuggestions = useCallback((lastRequestRef) => {
-		if(!lastRequestRef) {
-			console.log(`Last request ref = ${lastRequestRef}`)
-		} else {
-			console.log(`Trying to clear timeout for id = ${lastRequestRef}`)
-		}
-
+	const updateSuggestions = useCallback((lastRequestRef) => {		// updates suggestions based on current input:
 		if (state.userInput === "") {
 			setSuggestions([])
 			return null
@@ -55,13 +47,8 @@ function SearchBar({ state, fetchState, fetchStateByCoords, setState }) {
 		let id = lastRequestRef + 5
 
 		while (id--) {
-			window.clearTimeout(id); // will do nothing if no timeout with id is present
+			window.clearTimeout(id); // Clearing all previous timeouts
 		}
-
-
-		// if (lastRequestRef) {
-		// 	clearTimeout(lastRequestRef)
-		// }
 
 		return setTimeout(() => {
 			console.log(`Fetching for prefix '${state.userInput}'...`)
@@ -103,13 +90,8 @@ function SearchBar({ state, fetchState, fetchStateByCoords, setState }) {
 	}, [inputFocused, dropdownHovered, state, suggestions])
 
 	useEffect(() => {	// This effect calls the function that updates suggestions whenever userInput changes
-		console.log("Calling updateSuggestions from useEffect, prefix ", state.userInput)
 		lastTimeoutIdRef.current = updateSuggestions(lastTimeoutIdRef.current)
 	}, [state.userInput, updateSuggestions])
-
-	useEffect(() => {
-		console.log(`Last timeout's ID has changed to ${lastTimeoutIdRef.current}`)
-	})
 
 	return (
 		<div
