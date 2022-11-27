@@ -7,10 +7,6 @@ import CONSTANTS from "../constants.js"
 import loadingGif from '../loading.gif'
 
 
-const MIN_POPULATION = 500000	// Minimal population for a city to be displayed in the suggestions list
-const INPUT_WIDTH = "20rem"		// The fixed width of the input field
-
-
 function SearchBar({ state, fetchStateByCoords, setState }) {
 
 	const dropdownStyle = {		// Inline styling for the dropdown menu
@@ -24,7 +20,20 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 
 	const commonWidthStyle = {		// Sets the same width for the input field and the dropdown menu
 		display: "block",
-		width: INPUT_WIDTH
+		width: CONSTANTS.INPUT_WIDTH
+	}
+
+	const loadingLabelStyle = {
+		display: "inline-block",
+		position: "relative",
+		left: CONSTANTS.LOADING_SPINNER_WIDTH,
+	}
+
+	const loadingSpinnerStyle = {
+		position: "absolute",
+		height: CONSTANTS.LOADING_SPINNER_WIDTH,
+		float: "bottom",
+		top: `${(2 - parseInt(CONSTANTS.LOADING_SPINNER_WIDTH)) / 2}rem`
 	}
 
 	const [suggestions, setSuggestions] = useState([])	// list of suggestions
@@ -47,8 +56,6 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 			return null
 		}
 
-
-
 		let id = lastRequestRef + 5
 
 		while (id--) {
@@ -59,7 +66,7 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 
 		return setTimeout(() => {
 			console.log(`Fetching for prefix '${state.userInput}'...`)
-			fetch(`${geoAPI.requestStart}minPopulation=${MIN_POPULATION}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
+			fetch(`${geoAPI.requestStart}minPopulation=${CONSTANTS.MIN_POPULATION}&types=city&namePrefix=${state.userInput}`, geoAPI.options)
 				.then(response => response.json())
 				.then(json => {
 					console.log("logging response: ", json)
@@ -116,7 +123,9 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 				>
 				</input>
 			</div>
-			{!loading ? <div
+			{!loading
+			? 
+			(<div
 				className={`dropdown ${dropdownOpened && "opened"}`}
 				style={dropdownStyle}
 				ref={dropdownRef}>
@@ -137,39 +146,26 @@ function SearchBar({ state, fetchStateByCoords, setState }) {
 							</li>)
 					})}
 				</ul>
-			</div> :
-				<div
-					className="dropdown opened"
-					style={{
-						...dropdownStyle,
-					}}>
-					<ul>
-						<li style={{ position: "relative" }}>
-							<img
-								alt=""
-								src={loadingGif}
-								style={{
-									position: "absolute",
-									height: "3rem",
-									marginTop: "auto",
-									marginBottom: "auto",
-									float: "bottom",
-									top: "-0.5rem"
-								}} />
-							<p
-								style={{
-									display: "inline-block",
-									marginTop: "auto",
-									marginBottom: "auto",
-									position: "relative",
-									left: "3rem",
-
-								}}>
-								Loading...
-							</p>
-						</li>
-					</ul>
-				</div>
+			</div>)
+			:
+			(<div
+				className="dropdown opened"
+				style={{
+					...dropdownStyle,
+				}}>
+				<ul>
+					<li style={{ position: "relative" }}>
+						<img	
+							alt=""
+							src={loadingGif}
+							style={loadingSpinnerStyle} />
+						<p
+							style={loadingLabelStyle}>
+							Loading...
+						</p>
+					</li>
+				</ul>
+			</div>)
 			}
 		</div>)
 }

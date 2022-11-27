@@ -1,5 +1,5 @@
 import ForecastTable from "./ForecastTable"
-import WeatherIcon from "./WeatherIcon"
+// import WeatherIcon from "./WeatherIcon"
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import { formatLocationName } from "../capitalizeFirstLetter";
 import CONSTANTS from "../constants"
@@ -26,11 +26,10 @@ const Main = ({state}) => {
 					<DateBox />
 				</div>
 				<div className="temp-box">
-					<WeatherIcon iconID={state.icon} style={{height: "9rem"}} />
 					{Math.round(state.temp)}{CONSTANTS.CELCIUS_SYMBOL}
 				</div>
-				<div className="description-box text-center text">
-					<p>
+				<div className="description-box text">
+					<p className="text-center">
 						Feels like {Math.round(state.feelsLike)}{CONSTANTS.CELCIUS_SYMBOL}. {capitalizeFirstLetter(state.description)}.
 						Wind {state.wind.speed} m/s
 					</p>

@@ -3,24 +3,24 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 import CONSTANTS from "../constants";
 
 
-const ForecastTable = ({state, period}) => {
-    const {width} = useWindowDimensions()
-	const style = {
-		backgroundColor: "rgba(255, 255, 255, 0.2)",
-		borderRadius: "1rem",
-		width: "fit-content",
-		margin: "5rem auto",
-		padding: "1rem",
-		boxShadow: "5px 5px rgba(0, 0, 0, 0.2)"
-	}
+const ForecastTable = ({ state, period }) => {
+    const { width } = useWindowDimensions()
+    const style = {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        borderRadius: "1rem",
+        width: "fit-content",
+        margin: "5rem auto",
+        padding: "1rem",
+        boxShadow: "5px 5px rgba(0, 0, 0, 0.2)"
+    }
 
     const getTimeString = dt => {
         const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
         let hours = date.getHours()
         return (hours < 10 ? "0" : "") + `${hours}:00`
     }
-    
-    const getDayString  = dt => {
+
+    const getDayString = dt => {
         const date = new Date(dt * CONSTANTS.MS_IN_A_SECOND)
         return `${CONSTANTS.WEEK_DAYS_SHORTENED[date.getDay()]}`
     }
@@ -28,7 +28,7 @@ const ForecastTable = ({state, period}) => {
     let formatDate
     let indexCondition
 
-    switch(period) {
+    switch (period) {
         case "day":
             formatDate = getTimeString
             indexCondition = index => index < CONSTANTS.FORECAST_TIMESTAMPS_NUMBER
@@ -42,7 +42,7 @@ const ForecastTable = ({state, period}) => {
     }
 
     const formatTimestampProperty = (item, propKey) => {
-        switch(propKey) {
+        switch (propKey) {
             case "dt":
                 return formatDate(item.dt)
             case "temp":
@@ -54,44 +54,44 @@ const ForecastTable = ({state, period}) => {
         }
     }
 
-	return (
-		<div style={style} className="ForecastTable">
-			<h1 className="text-center">{period === "day" ? "Today" : "This week (the same hour)"}</h1>
-			<div style={{
-				display: "flex",
-				justifyContent: "center"
-			}}>
+    return (
+        <div style={style} className="ForecastTable">
+            <h1 className="text-center">{period === "day" ? "Today" : "This week"}</h1>
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+            }}>
                 <table className="ForecastTable">
                     <tbody>
                         {width < CONSTANTS.MOBILE_MAX_WIDTH
-                        ?
-                        state.forecastList.map((item, index) => (
-                            indexCondition(index)
-                            && 
-                            <tr key={index}>
-                                {["dt", "temp", "icon"].map(propKey => (
-                                    <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={propKey}>
-                                        {formatTimestampProperty(item, propKey)}
-                                    </td>)
-                                )}
-                            </tr>)
-                        )
-                        :
-                        ["dt", "temp", "icon"].map(propKey => (
-                            <tr key={propKey}>
-                                {state.forecastList.map((item, index) => (
-                                    indexCondition(index)
-                                    && 
-                                    <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={item.dt}>
-                                        {formatTimestampProperty(item, propKey)}
-                                    </td>))}
-                            </tr>)
-                        )}
+                            ?
+                            state.forecastList.map((item, index) => (
+                                indexCondition(index)
+                                &&
+                                <tr key={index}>
+                                    {["dt", "temp", "icon"].map(propKey => (
+                                        <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={propKey}>
+                                            {formatTimestampProperty(item, propKey)}
+                                        </td>)
+                                    )}
+                                </tr>)
+                            )
+                            :
+                            ["dt", "temp", "icon"].map(propKey => (
+                                <tr key={propKey}>
+                                    {state.forecastList.map((item, index) => (
+                                        indexCondition(index)
+                                        &&
+                                        <td className={propKey === "icon" ? "icon-cell" : "text-center"} key={item.dt}>
+                                            {formatTimestampProperty(item, propKey)}
+                                        </td>))}
+                                </tr>)
+                            )}
                     </tbody>
                 </table>
-			</div>
-		</div>
-	)
+            </div>
+        </div>
+    )
 }
 
 export default ForecastTable

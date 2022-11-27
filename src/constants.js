@@ -16,6 +16,9 @@ const CONSTANTS = {
 		LINKEDIN_PROFILE_URL: "https://www.linkedin.com/in/igor-ivanter-abab26256/",
 		GITHUB_PROFILE_URL: "https://github.com/IgorIvanter"
 	},
+	MIN_POPULATION: 500000,		// Minimal population for a city to be displayed in the suggestions list
+	INPUT_WIDTH: "20rem",
+	LOADING_SPINNER_WIDTH: "3rem",
 	API: {
 		key: "076d1ea1151407ab670c718939b77745",
 		requestStartWeather: "https://api.openweathermap.org/data/2.5/weather?",
