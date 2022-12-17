@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/weather-around-the-world/static/css/main.916832aa.css",
+    "main.js": "/weather-around-the-world/static/js/main.ed0da396.js",
+    "static/js/787.d9312eb8.chunk.js": "/weather-around-the-world/static/js/787.d9312eb8.chunk.js",
+    "static/media/loading.gif": "/weather-around-the-world/static/media/loading.c46f3973d3700bec2117.gif",
+    "index.html": "/weather-around-the-world/index.html",
+    "main.916832aa.css.map": "/weather-around-the-world/static/css/main.916832aa.css.map",
+    "main.ed0da396.js.map": "/weather-around-the-world/static/js/main.ed0da396.js.map",
+    "787.d9312eb8.chunk.js.map": "/weather-around-the-world/static/js/787.d9312eb8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.916832aa.css",
+    "static/js/main.ed0da396.js"
+  ]
+}
